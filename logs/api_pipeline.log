@@ -1,0 +1,238 @@
+2025-09-14 00:37:55,077 - ERROR - An unexpected error occurred in function 'upload_files': load_config() takes 0 positional arguments but 1 was given
+Traceback (most recent call last):
+  File "C:\Users\tangw\workflow\utils\handler.py", line 15, in wrapper
+    return await func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tangw\workflow\main_for_stage2.py", line 28, in upload_files
+    config = load_config('config.yaml')
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: load_config() takes 0 positional arguments but 1 was given
+2025-09-14 00:43:37,618 - INFO - Received request to upload 3 files.
+2025-09-14 00:43:37,633 - INFO - Successfully saved 'RA1_3428.jpg' to 'event_images'.
+2025-09-14 00:43:37,654 - INFO - Successfully saved 'DSC_4838.jpg' to 'event_images'.
+2025-09-14 00:43:37,674 - INFO - Successfully saved 'DSC_4793.jpg' to 'event_images'.
+2025-09-14 00:43:37,676 - INFO - Upload process finished. Saved 3 of 3 images.
+2025-09-14 00:44:40,584 - INFO - Received request to start image processing.
+2025-09-14 00:44:40,584 - INFO - Face clustering pipeline has been added to the background queue.
+2025-09-14 00:44:40,585 - INFO - Background task started: Instantiating and running the FaceClusteringPipeline.
+2025-09-14 00:44:40,586 - ERROR - Background task failed: A critical exception occurred in the pipeline.
+Traceback (most recent call last):
+  File "C:\Users\tangw\workflow\main_for_stage2.py", line 68, in run_pipeline_in_background
+    config = load_config('config.yaml')
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: load_config() takes 0 positional arguments but 1 was given
+2025-09-14 00:47:14,526 - INFO - Received request to start image processing.
+2025-09-14 00:47:14,527 - INFO - Face clustering pipeline has been added to the background queue.
+2025-09-14 00:47:14,543 - INFO - Background task started: Instantiating and running the FaceClusteringPipeline.
+2025-09-14 00:47:14,546 - INFO - --- Starting Face Clustering Pipeline ---
+2025-09-14 00:47:14,550 - ERROR - Background task failed: A critical exception occurred in the pipeline.
+Traceback (most recent call last):
+  File "C:\Users\tangw\workflow\main_for_stage2.py", line 70, in run_pipeline_in_background
+    pipeline.run()
+  File "C:\Users\tangw\workflow\stage2\main_pipeline.py", line 41, in run
+    self._process_images_parallel(image_files)
+  File "C:\Users\tangw\workflow\stage2\main_pipeline.py", line 71, in _process_images_parallel
+    futures = {executor.submit(task, fp): fp for fp in image_files}
+                                                       ^^^^^^^^^^^
+TypeError: 'coroutine' object is not iterable
+2025-09-14 00:58:18,308 - INFO - Received request to start image processing.
+2025-09-14 00:58:18,311 - INFO - Face clustering pipeline has been added to the background queue.
+2025-09-14 00:58:18,333 - INFO - Background task started: Instantiating and running the FaceClusteringPipeline.
+2025-09-14 00:58:18,338 - INFO - --- Starting Face Clustering Pipeline ---
+2025-09-14 00:58:31,105 - ERROR - Background task failed: A critical exception occurred in the pipeline.
+concurrent.futures.process._RemoteTraceback: 
+"""
+Traceback (most recent call last):
+  File "C:\Users\tangw\anaconda3\Lib\concurrent\futures\process.py", line 219, in _sendback_result
+    result_queue.put(_ResultItem(work_id, result=result,
+  File "C:\Users\tangw\anaconda3\Lib\multiprocessing\queues.py", line 393, in put
+    obj = _ForkingPickler.dumps(obj)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tangw\anaconda3\Lib\multiprocessing\reduction.py", line 51, in dumps
+    cls(buf, protocol).dump(obj)
+TypeError: cannot pickle 'coroutine' object
+"""
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\tangw\workflow\main_for_stage2.py", line 70, in run_pipeline_in_background
+    pipeline.run()
+  File "C:\Users\tangw\workflow\stage2\main_pipeline.py", line 43, in run
+    self._process_images_parallel(image_files)
+  File "C:\Users\tangw\workflow\stage2\main_pipeline.py", line 76, in _process_images_parallel
+    result = future.result()
+             ^^^^^^^^^^^^^^^
+  File "C:\Users\tangw\anaconda3\Lib\concurrent\futures\_base.py", line 449, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tangw\anaconda3\Lib\concurrent\futures\_base.py", line 401, in __get_result
+    raise self._exception
+TypeError: cannot pickle 'coroutine' object
+2025-09-14 01:07:01,377 - INFO - Received request to start image processing.
+2025-09-14 01:07:01,379 - INFO - Face clustering pipeline has been added to the background queue.
+2025-09-14 01:07:01,421 - INFO - Background task started: Instantiating and running the FaceClusteringPipeline.
+2025-09-14 01:07:01,424 - INFO - --- Starting Face Clustering Pipeline ---
+2025-09-14 01:07:13,516 - ERROR - Background task failed: A critical exception occurred in the pipeline.
+concurrent.futures.process._RemoteTraceback: 
+"""
+Traceback (most recent call last):
+  File "C:\Users\tangw\anaconda3\Lib\concurrent\futures\process.py", line 219, in _sendback_result
+    result_queue.put(_ResultItem(work_id, result=result,
+  File "C:\Users\tangw\anaconda3\Lib\multiprocessing\queues.py", line 393, in put
+    obj = _ForkingPickler.dumps(obj)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tangw\anaconda3\Lib\multiprocessing\reduction.py", line 51, in dumps
+    cls(buf, protocol).dump(obj)
+TypeError: cannot pickle 'coroutine' object
+"""
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\tangw\workflow\main_for_stage2.py", line 70, in run_pipeline_in_background
+    pipeline.run()
+  File "C:\Users\tangw\workflow\stage2\main_pipeline.py", line 43, in run
+    self._process_images_parallel(image_files)
+  File "C:\Users\tangw\workflow\stage2\main_pipeline.py", line 76, in _process_images_parallel
+    result = future.result()
+             ^^^^^^^^^^^^^^^
+  File "C:\Users\tangw\anaconda3\Lib\concurrent\futures\_base.py", line 449, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tangw\anaconda3\Lib\concurrent\futures\_base.py", line 401, in __get_result
+    raise self._exception
+TypeError: cannot pickle 'coroutine' object
+2025-09-14 01:15:53,082 - INFO - Received request to start image processing.
+2025-09-14 01:15:53,083 - INFO - Face clustering pipeline has been added to the background queue.
+2025-09-14 01:15:53,092 - INFO - Background task started: Instantiating and running the FaceClusteringPipeline.
+2025-09-14 01:15:53,096 - INFO - --- Starting Face Clustering Pipeline ---
+2025-09-14 01:16:03,012 - INFO - FaceProcessor is building the 'ArcFace' model...
+2025-09-14 01:16:03,121 - INFO - FaceProcessor is building the 'ArcFace' model...
+2025-09-14 01:16:03,151 - INFO - FaceProcessor is building the 'ArcFace' model...
+2025-09-14 01:16:06,233 - INFO - DeepFace model built successfully.
+2025-09-14 01:16:06,233 - INFO - DeepFace model built successfully.
+2025-09-14 01:16:06,395 - INFO - DeepFace model built successfully.
+2025-09-14 01:16:54,672 - INFO - Progress: Processed 1/3 images...
+2025-09-14 01:16:54,925 - INFO - Progress: Processed 2/3 images...
+2025-09-14 01:16:55,083 - INFO - Progress: Processed 3/3 images...
+2025-09-14 01:16:59,024 - INFO - Total faces detected: 21
+2025-09-14 01:16:59,134 - INFO - Clustering 21 faces...
+2025-09-14 01:16:59,157 - ERROR - Background task failed: A critical exception occurred in the pipeline.
+Traceback (most recent call last):
+  File "C:\Users\tangw\workflow\main_for_stage2.py", line 70, in run_pipeline_in_background
+    pipeline.run()
+  File "C:\Users\tangw\workflow\stage2\main_pipeline.py", line 49, in run
+    self._save_results()
+  File "C:\Users\tangw\workflow\stage2\main_pipeline.py", line 99, in _save_results
+    clustered_df = self._cluster_embeddings(df)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tangw\workflow\stage2\main_pipeline.py", line 86, in _cluster_embeddings
+    clustering = AgglomerativeClustering(
+                 ^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: AgglomerativeClustering.__init__() got an unexpected keyword argument 'affinity'
+2025-09-14 01:21:35,223 - INFO - Received request to start image processing.
+2025-09-14 01:21:35,224 - INFO - Face clustering pipeline has been added to the background queue.
+2025-09-14 01:21:35,235 - INFO - Background task started: Instantiating and running the FaceClusteringPipeline.
+2025-09-14 01:21:35,239 - INFO - --- Starting Face Clustering Pipeline ---
+2025-09-14 01:21:44,687 - INFO - FaceProcessor is building the 'ArcFace' model...
+2025-09-14 01:21:44,748 - INFO - FaceProcessor is building the 'ArcFace' model...
+2025-09-14 01:21:44,842 - INFO - FaceProcessor is building the 'ArcFace' model...
+2025-09-14 01:21:48,007 - INFO - DeepFace model built successfully.
+2025-09-14 01:21:48,008 - INFO - DeepFace model built successfully.
+2025-09-14 01:21:48,073 - INFO - DeepFace model built successfully.
+2025-09-14 01:23:09,279 - INFO - Progress: Processed 1/3 images...
+2025-09-14 01:23:10,646 - INFO - Progress: Processed 2/3 images...
+2025-09-14 01:23:10,894 - INFO - Progress: Processed 3/3 images...
+2025-09-14 01:23:22,494 - INFO - Total faces detected: 21
+2025-09-14 01:23:22,630 - INFO - Clustering 21 faces...
+2025-09-14 01:23:23,108 - INFO - Clustering complete. Found 15 unique people.
+2025-09-14 01:23:23,194 - INFO - Full face data saved to 'face_data.csv'
+2025-09-14 01:23:23,196 - INFO - Saving representative faces for each cluster...
+2025-09-14 01:23:27,164 - INFO - --- Pipeline Complete ---
+2025-09-14 01:23:27,165 - INFO - Background task finished: Pipeline completed successfully.
+2025-09-14 15:45:41,662 - INFO - Received API request to start Stage 3: Scoring.
+2025-09-14 15:45:41,688 - INFO - Background task started: Instantiating and running the WorkflowOrchestrator.
+2025-09-14 15:45:41,692 - INFO - --- Starting Stage 3: Photo Scoring Pipeline ---
+2025-09-14 15:45:41,719 - INFO - Starting parallel scoring with 12 worker processes.
+2025-09-14 15:45:43,695 - INFO - Loading dlib facial landmark model from: shape_predictor_68_face_landmarks.dat
+2025-09-14 15:45:43,698 - INFO - Loading dlib facial landmark model from: shape_predictor_68_face_landmarks.dat
+2025-09-14 15:45:43,754 - INFO - Loading dlib facial landmark model from: shape_predictor_68_face_landmarks.dat
+2025-09-14 15:45:45,301 - ERROR - Background task failed: A critical exception occurred in the scoring pipeline.
+concurrent.futures.process._RemoteTraceback: 
+"""
+Traceback (most recent call last):
+  File "C:\Users\tangw\anaconda3\Lib\concurrent\futures\process.py", line 263, in _process_worker
+    r = call_item.fn(*call_item.args, **call_item.kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tangw\workflow\stage3\score_pipeline.py", line 29, in score_photo_worker
+    scores, length = scorer.score_photo(image_path, people_df)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tangw\workflow\stage3\scoring_engine.py", line 40, in score_photo
+    if not self._is_sharp(gray_image, self.config['thresholds']['global_sharpness']):
+                                      ~~~~~~~~~~~^^^^^^^^^^^^^^
+KeyError: 'thresholds'
+"""
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\tangw\workflow\Backend_main.py", line 97, in run_scoring_in_background
+    orchestrator.run()
+  File "C:\Users\tangw\workflow\stage3\score_pipeline.py", line 78, in run
+    all_scores = self._run_scoring_in_parallel(photos_to_score)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tangw\workflow\stage3\score_pipeline.py", line 130, in _run_scoring_in_parallel
+    result = future.result()
+             ^^^^^^^^^^^^^^^
+  File "C:\Users\tangw\anaconda3\Lib\concurrent\futures\_base.py", line 449, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tangw\anaconda3\Lib\concurrent\futures\_base.py", line 401, in __get_result
+    raise self._exception
+KeyError: 'thresholds'
+2025-09-14 15:56:34,187 - INFO - Received API request to start Stage 3: Scoring.
+2025-09-14 15:56:34,197 - INFO - Background task started: Instantiating and running the WorkflowOrchestrator.
+2025-09-14 15:56:34,202 - INFO - --- Starting Stage 3: Photo Scoring Pipeline ---
+2025-09-14 15:56:34,224 - INFO - Starting parallel scoring with 12 worker processes.
+2025-09-14 15:56:35,783 - INFO - Loading dlib facial landmark model from: shape_predictor_68_face_landmarks.dat
+2025-09-14 15:56:35,819 - INFO - Loading dlib facial landmark model from: shape_predictor_68_face_landmarks.dat
+2025-09-14 15:56:35,826 - INFO - Loading dlib facial landmark model from: shape_predictor_68_face_landmarks.dat
+2025-09-14 15:56:38,996 - INFO - \u2705 Workflow complete. Scores saved to 'photo_scores.csv'
+2025-09-14 15:56:38,998 - INFO - Background task finished: Scoring completed successfully.
+2025-09-14 16:02:17,753 - INFO - Received API request to start Stage 3: Scoring.
+2025-09-14 16:02:17,767 - INFO - Background task started: Instantiating and running the WorkflowOrchestrator.
+2025-09-14 16:02:17,772 - INFO - --- Starting Stage 3: Photo Scoring Pipeline ---
+2025-09-14 16:02:17,798 - INFO - Starting parallel scoring with 12 worker processes.
+2025-09-14 16:02:19,388 - INFO - Loading dlib facial landmark model from: shape_predictor_68_face_landmarks.dat
+2025-09-14 16:02:19,397 - INFO - Loading dlib facial landmark model from: shape_predictor_68_face_landmarks.dat
+2025-09-14 16:02:19,444 - INFO - Loading dlib facial landmark model from: shape_predictor_68_face_landmarks.dat
+2025-09-14 16:02:23,313 - INFO - \u2705 Workflow complete. Scores saved to 'photo_scores.csv'
+2025-09-14 16:02:23,314 - INFO - Background task finished: Scoring completed successfully.
+2025-09-14 16:05:35,505 - INFO - Received API request to start Stage 3: Scoring.
+2025-09-14 16:05:35,514 - INFO - Background task started: Instantiating and running the WorkflowOrchestrator.
+2025-09-14 16:05:35,518 - INFO - --- Starting Stage 3: Photo Scoring Pipeline ---
+2025-09-14 16:05:35,541 - INFO - Starting parallel scoring with 12 worker processes.
+2025-09-14 16:05:37,303 - INFO - Loading dlib facial landmark model from: shape_predictor_68_face_landmarks.dat
+2025-09-14 16:05:37,309 - INFO - Loading dlib facial landmark model from: shape_predictor_68_face_landmarks.dat
+2025-09-14 16:05:37,344 - INFO - Loading dlib facial landmark model from: shape_predictor_68_face_landmarks.dat
+2025-09-14 16:05:39,997 - INFO - \u2705 Workflow complete. Scores saved to 'photo_scores.csv'
+2025-09-14 16:05:39,998 - INFO - Background task finished: Scoring completed successfully.
+2025-09-14 16:09:05,347 - INFO - Received API request to start Stage 3: Scoring.
+2025-09-14 16:09:05,358 - INFO - Background task started: Instantiating and running the WorkflowOrchestrator.
+2025-09-14 16:09:05,362 - INFO - --- Starting Stage 3: Photo Scoring Pipeline ---
+2025-09-14 16:09:05,382 - INFO - Starting parallel scoring with 12 worker processes.
+2025-09-14 16:09:06,931 - INFO - Loading dlib facial landmark model from: shape_predictor_68_face_landmarks.dat
+2025-09-14 16:09:06,931 - INFO - Loading dlib facial landmark model from: shape_predictor_68_face_landmarks.dat
+2025-09-14 16:09:06,988 - INFO - Loading dlib facial landmark model from: shape_predictor_68_face_landmarks.dat
+2025-09-14 16:09:09,605 - INFO - \u2705 Workflow complete. Scores saved to 'photo_scores.csv'
+2025-09-14 16:09:09,606 - INFO - Background task finished: Scoring completed successfully.
+2025-09-14 16:10:42,146 - INFO - Received API request to start Stage 3: Scoring.
+2025-09-14 16:10:42,157 - INFO - Background task started: Instantiating and running the WorkflowOrchestrator.
+2025-09-14 16:10:42,162 - INFO - --- Starting Stage 3: Photo Scoring Pipeline ---
+2025-09-14 16:10:42,182 - INFO - Starting parallel scoring with 12 worker processes.
+2025-09-14 16:10:43,758 - INFO - Loading dlib facial landmark model from: shape_predictor_68_face_landmarks.dat
+2025-09-14 16:10:43,788 - INFO - Loading dlib facial landmark model from: shape_predictor_68_face_landmarks.dat
+2025-09-14 16:10:43,813 - INFO - Loading dlib facial landmark model from: shape_predictor_68_face_landmarks.dat
+2025-09-14 16:10:46,230 - INFO - \u2705 Workflow complete. Scores saved to 'photo_scores.csv'
+2025-09-14 16:10:46,231 - INFO - Background task finished: Scoring completed successfully.

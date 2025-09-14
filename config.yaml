@@ -1,0 +1,42 @@
+io:
+  # The folder where the API will save uploaded images.
+  image_folder: 'event_images' 
+  output_csv: 'face_data.csv'
+  cluster_folder: 'output_clusters'
+
+# --- Model & Performance Configuration ---
+model_performance:
+  model_name: 'ArcFace'
+  workers: null 
+
+# --- Clustering Algorithm Configuration ---
+clustering:
+  affinity: 'cosine'
+  linkage: 'average'
+  threshold: 0.4
+
+scoring:
+  dlib_model_path: 'shape_predictor_68_face_landmarks.dat'
+  face_data_csv: 'face_data.csv'
+  labels_json: 'cluster_labels.json'
+  output_csv: 'photo_scores.csv'
+  parallel_workers: null
+
+  # --- Quality Thresholds (these can now be tuned easily) ---
+thresholds:
+  global_sharpness: 60.0
+  face_focus: 90.0
+  eye_aspect_ratio: 0.20
+  smile_ratio: 0.38
+
+  # --- Business Logic for Aggregation ---
+rules:
+  require_all_eyes_open: 1
+  require_all_smiles: 0
+  require_all_in_focus: 0
+
+# --- Logging Configuration ---
+logging:
+  level: 'INFO'
+  file: 'logs/api_pipeline.log'
+
