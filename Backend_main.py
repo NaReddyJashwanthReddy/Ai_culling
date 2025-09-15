@@ -46,7 +46,7 @@ def run_scoring_task():
     """Wrapper for the Stage 3 scoring pipeline."""
     try:
         set_app_state("SCORING", "Photo scoring is in progress... This may take a few minutes.")
-        config = load_config('config.yaml')
+        config = load_config()
         orchestrator = WorkflowOrchestrator(config)
         orchestrator.run()
         set_app_state("COMPLETE", "Scoring complete. Results are available.")
