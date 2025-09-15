@@ -1,106 +1,174 @@
 import os
 import shutil
-import yaml
+import json
+import pandas as pd
 from typing import List
 from fastapi import FastAPI, File, UploadFile, BackgroundTasks, HTTPException
+from fastapi.responses import FileResponse, JSONResponse
+from fastapi.staticfiles import StaticFiles
 
-# CHANGED: Import the pipeline class and config loader, not the old function
+# Import the core logic and utilities from our other modules
 from stage2.main_pipeline import FaceClusteringPipeline
 from stage3.score_pipeline import WorkflowOrchestrator
 from utils.logger import logger, load_config
 from utils.handler import handle_exception
 
+# --- Application State Management ---
+# In a real multi-user app, this state would be managed in a database like Redis.
+# For this single-user project, a simple global dictionary is clean and effective.
+APP_STATE = {
+    "status": "IDLE", # Can be IDLE, CLUSTERING, READY_FOR_LABELING, SCORING, COMPLETE, ERROR
+    "message": "System is ready. Please upload images."
+}
+
+def set_app_state(status: str, message: str):
+    """A helper function to safely update the global application state and log the change."""
+    APP_STATE["status"] = status
+    APP_STATE["message"] = message
+    logger.info(f"State changed to {status}: {message}")
+
+# --- Background Task Wrappers ---
+# These functions wrap our pipeline classes to manage state during background execution.
+
+def run_clustering_task():
+    """Wrapper for the Stage 2 clustering pipeline."""
+    try:
+        set_app_state("CLUSTERING", "Face clustering is in progress... This may take several minutes.")
+        config = load_config()
+        pipeline = FaceClusteringPipeline(config=config)
+        pipeline.run()
+        set_app_state("READY_FOR_LABELING", "Clustering complete. Please label the clusters.")
+    except Exception as e:
+        set_app_state("ERROR", f"An error occurred during clustering: {e}")
+        logger.error("Clustering pipeline failed.", exc_info=True)
+
+def run_scoring_task():
+    """Wrapper for the Stage 3 scoring pipeline."""
+    try:
+        set_app_state("SCORING", "Photo scoring is in progress... This may take a few minutes.")
+        config = load_config('config.yaml')
+        orchestrator = WorkflowOrchestrator(config)
+        orchestrator.run()
+        set_app_state("COMPLETE", "Scoring complete. Results are available.")
+    except Exception as e:
+        set_app_state("ERROR", f"An error occurred during scoring: {e}")
+        logger.error("Scoring pipeline failed.", exc_info=True)
+
 # --- FastAPI App Instantiation ---
 app = FastAPI(
-    title="Face Clustering API",
-    description="An API to upload event images and run a powerful clustering pipeline.",
-    version="1.0.0" # Version updated to reflect major change
+    title="Automated Photo Curation API",
+    description="A complete API for the multi-stage photo clustering and scoring pipeline.",
+    version="1.0.0"
 )
 
-# --- API Endpoints ---
+# --- Serve Frontend and Static Files ---
+# This section makes our application self-contained.
 
-@app.post("/upload", tags=["Image Handling"])
+@app.get("/", include_in_schema=False)
+async def read_index():
+    """Serves the main frontend application (index.html)."""
+    return FileResponse('index.html')
+
+config = load_config()
+# Create directories if they don't exist to prevent errors on first run
+os.makedirs(config['io']['cluster_folder'], exist_ok=True)
+os.makedirs(config['io']['image_folder'], exist_ok=True)
+
+# Mount static directories to serve images directly to the frontend
+app.mount("/clusters", StaticFiles(directory=config['io']['cluster_folder']), name="clusters")
+app.mount("/images", StaticFiles(directory=config['io']['image_folder']), name="images")
+
+# --- API Endpoints for Frontend ---
+
+@app.get("/api/status", tags=["Workflow"])
+async def get_status():
+    """Returns the current status of the backend pipeline for UI polling."""
+    return APP_STATE
+
+@app.post("/api/upload", tags=["Workflow"])
 @handle_exception
 async def upload_files(images: List[UploadFile] = File(...)):
-    """
-    Handles the user uploading a list of image files.
-    Saves files to the location specified in config.yaml.
-    """
-    config = load_config()
+    """Handles uploading all event images and resets the pipeline."""
     upload_folder = config['io']['image_folder']
-    os.makedirs(upload_folder, exist_ok=True) # Ensure folder exists
-
-    logger.info(f"Received request to upload {len(images)} files.")
-    saved_count = 0
+    
+    # Clear previous event data for a fresh run
+    for folder in [config['io']['cluster_folder'], upload_folder]:
+        if os.path.exists(folder):
+            shutil.rmtree(folder)
+        os.makedirs(folder, exist_ok=True)
+    
     for image in images:
-        if not image.filename:
-            logger.warning("Skipping an upload entry with no filename.")
-            continue
-
         save_path = os.path.join(upload_folder, image.filename)
-        try:
-            with open(save_path, "wb") as buffer:
-                shutil.copyfileobj(image.file, buffer)
-            saved_count += 1
-            logger.info(f"Successfully saved '{image.filename}' to '{upload_folder}'.")
-        finally:
-            await image.close()
+        with open(save_path, "wb") as buffer:
+            shutil.copyfileobj(image.file, buffer)
+        await image.close()
+        
+    set_app_state("READY_FOR_CLUSTERING", f"{len(images)} images uploaded. Ready to start clustering.")
+    return {"message": APP_STATE["message"]}
 
-    logger.info(f"Upload process finished. Saved {saved_count} of {len(images)} images.")
-    if saved_count == 0 and images:
-        raise HTTPException(status_code=400, detail="No valid files could be saved from the upload request.")
-    
-    return {"message": f"Successfully uploaded {saved_count} of {len(images)} images."}
-
-
-@app.post("/process", tags=["Processing"])
+@app.post("/api/cluster", tags=["Workflow"])
 @handle_exception
-async def process_images(background_tasks: BackgroundTasks):
-    """
-    Triggers the full, object-oriented face clustering pipeline to run as a background task.
-    """
-    logger.info("Received request to start image processing.")
-
-    # CHANGED: The background task now runs our entire OOP pipeline
-    def run_pipeline_in_background():
-        """Wrapper to load config and run the full pipeline."""
-        try:
-            logger.info("Background task started: Instantiating and running the FaceClusteringPipeline.")
-            config = load_config()
-            pipeline = FaceClusteringPipeline(config=config)
-            pipeline.run()
-            logger.info("Background task finished: Pipeline completed successfully.")
-        except Exception:
-            logger.error("Background task failed: A critical exception occurred in the pipeline.", exc_info=True)
-
-    background_tasks.add_task(run_pipeline_in_background)
+async def trigger_clustering(background_tasks: BackgroundTasks):
+    """Triggers the Stage 2 face clustering pipeline as a background task."""
+    if APP_STATE["status"] != "READY_FOR_CLUSTERING":
+        raise HTTPException(status_code=409, detail=f"Cannot start clustering. System status is '{APP_STATE['status']}'. Please upload images first.")
     
-    logger.info("Face clustering pipeline has been added to the background queue.")
-    return {"message": "Processing has been successfully started in the background."}
+    background_tasks.add_task(run_clustering_task)
+    set_app_state("CLUSTERING_QUEUED", "Clustering process has been queued.")
+    return {"message": "Accepted. Face clustering started in the background."}
 
-@app.post("/filter", tags=["Scoring Pipeline"])
+@app.get("/api/clusters", tags=["Workflow"])
 @handle_exception
-async def trigger_scoring_pipeline(background_tasks: BackgroundTasks):
+async def get_cluster_data():
+    """Returns a list of cluster image URLs for the labeling UI."""
+    cluster_folder = config['io']['cluster_folder']
+    if not os.path.exists(cluster_folder):
+        raise HTTPException(status_code=404, detail="Cluster output folder not found. Please run the clustering process first.")
     
-    logger.info("Received API request to start Stage 3: Scoring.")
+    cluster_images = sorted([f for f in os.listdir(cluster_folder) if f.endswith('.jpg')])
+    return {"cluster_image_urls": [f"/clusters/{filename}" for filename in cluster_images]}
 
-    def run_scoring_in_background():
-        """
-        A wrapper function to load the configuration and run our existing
-        WorkflowOrchestrator. This is what the background task will execute.
-        """
-        try:
-            logger.info("Background task started: Instantiating and running the WorkflowOrchestrator.")
-            config = load_config()
-            # Here, we reuse our robust, standalone orchestrator
-            orchestrator = WorkflowOrchestrator(config)
-            orchestrator.run()
-            logger.info("Background task finished: Scoring completed successfully.")
-        except Exception:
-            logger.error("Background task failed: A critical exception occurred in the scoring pipeline.", exc_info=True)
-    
-    # Schedule the task to run in the background
-    background_tasks.add_task(run_scoring_in_background)
-    
-    # Immediately return a response to the user
-    return {"message": "Accepted. The Stage 3 scoring pipeline has been started in the background."}
+@app.post("/api/labels", tags=["Workflow"])
+@handle_exception
+async def upload_cluster_labels(labels_file: UploadFile = File(...)):
+    """Receives the manually created cluster_labels.json file from the frontend."""
+    labels_path = config['scoring']['labels_json']
+    content = await labels_file.read()
+    try:
+        json.loads(content) # Validate that it's valid JSON
+    except json.JSONDecodeError:
+        raise HTTPException(status_code=400, detail="Invalid JSON file.")
+    with open(labels_path, "wb") as f:
+        f.write(content)
+        
+    set_app_state("READY_FOR_SCORING", "Labels uploaded. Ready to start scoring.")
+    return {"message": "Labels file uploaded successfully."}
+
+@app.post("/api/score", tags=["Workflow"])
+@handle_exception
+async def trigger_scoring(background_tasks: BackgroundTasks):
+    """Triggers the Stage 3 photo scoring pipeline as a background task."""
+    if APP_STATE["status"] != "READY_FOR_SCORING":
+        raise HTTPException(status_code=409, detail=f"Cannot start scoring. System status is '{APP_STATE['status']}'. Please upload labels first.")
+        
+    background_tasks.add_task(run_scoring_task)
+    set_app_state("SCORING_QUEUED", "Scoring process has been queued.")
+    return {"message": "Accepted. Photo scoring started in the background."}
+
+@app.get("/api/results", tags=["Workflow"])
+@handle_exception
+async def get_results():
+    """Returns the final scored and ranked photos as a JSON array for the results page."""
+    if APP_STATE["status"] != "COMPLETE":
+        raise HTTPException(status_code=404, detail=f"Results are not yet available. Current status: {APP_STATE['status']}")
+        
+    results_csv = config['scoring']['output_csv']
+    try:
+        df = pd.read_csv(results_csv)
+        # Add a full image URL for the frontend to easily display the final photos
+        df['image_url'] = '/images/' + df['filename']
+        # Convert DataFrame to a JSON array of records, handling potential NaN values
+        results_json = json.loads(df.to_json(orient='records'))
+        return JSONResponse(content=results_json)
+    except FileNotFoundError:
+        raise HTTPException(status_code=404, detail="Results file not found.")
