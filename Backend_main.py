@@ -155,20 +155,44 @@ async def trigger_scoring(background_tasks: BackgroundTasks):
     set_app_state("SCORING_QUEUED", "Scoring process has been queued.")
     return {"message": "Accepted. Photo scoring started in the background."}
 
-@app.get("/api/results", tags=["Workflow"])
+@app.get("/api/gallery-data", tags=["Workflow Results"])
 @handle_exception
-async def get_results():
-    """Returns the final scored and ranked photos as a JSON array for the results page."""
+async def get_gallery_data():
+    """
+    Loads all original images and merges them with scoring data to provide
+    a complete dataset for the interactive frontend gallery.
+    """
     if APP_STATE["status"] != "COMPLETE":
-        raise HTTPException(status_code=404, detail=f"Results are not yet available. Current status: {APP_STATE['status']}")
-        
+        raise HTTPException(status_code=404, detail=f"Results not yet available. Current status: {APP_STATE['status']}")
+
+    image_folder = config['io']['image_folder']
     results_csv = config['scoring']['output_csv']
+
+    # 1. Get all original image files from the event folder
     try:
-        df = pd.read_csv(results_csv)
-        # Add a full image URL for the frontend to easily display the final photos
-        df['image_url'] = '/images/' + df['filename']
-        # Convert DataFrame to a JSON array of records, handling potential NaN values
-        results_json = json.loads(df.to_json(orient='records'))
-        return JSONResponse(content=results_json)
+        all_images = [f for f in os.listdir(image_folder) if f.lower().endswith(('.png', '.jpg', '.jpeg'))]
+        images_df = pd.DataFrame(all_images, columns=['photo_path'])
+        images_df['image_url'] = "/event_images/"+images_df['photo_path']
     except FileNotFoundError:
-        raise HTTPException(status_code=404, detail="Results file not found.")
+        raise HTTPException(status_code=404, detail=f"Image folder '{image_folder}' not found.")
+
+    # 2. Load scoring data if it exists
+    if not os.path.exists(results_csv):
+        logger.warning("Results CSV not found. Returning all images without scores.")
+        return JSONResponse(content=json.loads(images_df.to_json(orient='records')))
+
+    try:
+        scores_df = pd.read_csv(results_csv)
+    except pd.errors.EmptyDataError:
+        logger.warning("Results CSV is empty. Returning all images without scores.")
+        return JSONResponse(content=json.loads(images_df.to_json(orient='records')))
+
+    # 3. Merge them, keeping ALL images (a "left" merge)
+    gallery_df = pd.merge(images_df, scores_df, on='photo_path', how='left')
+    app.mount("/event_images", StaticFiles(directory="event_images"), name="static_images")
+    # Fill NaN values for images that were not scored with safe defaults
+    gallery_df['results'].fillna('ccccccccc', inplace=True) # Default to all N/A
+    for col in ['main', 'important', 'others', 'total']:
+        gallery_df[col].fillna(0, inplace=True)
+        gallery_df[col] = gallery_df[col].astype(int)
+    return JSONResponse(content=json.loads(gallery_df.to_json(orient='records')))

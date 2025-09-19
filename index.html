@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI Photo Curation</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap');
+        .hidden { display: none; }
+        /* Simple spinner for loading states */
+        .spinner {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            border-left-color: #4f46e5; /* indigo-600 */
+            animation: spin 1s ease infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800">
+    <div class="container mx-auto p-4 md:p-8">
+        <header class="text-center mb-12">
+            <h1 class="text-4xl md:text-5xl font-bold text-slate-900">AI Photo Curation Pipeline</h1>
+            <p class="text-lg text-slate-600 mt-2">Automatically find the best photos from your event.</p>
+        </header>
+
+        <main id="main-content" class="flex flex-col items-center">
+            <!-- Status Indicator Section -->
+            <div id="status-indicator" class="bg-white p-6 rounded-xl shadow-md flex items-center justify-center space-x-4 my-8 w-full max-w-2xl">
+                <div id="spinner" class="hidden spinner"></div>
+                <div>
+                    <div id="status-text" class="text-xl font-medium text-black">IDLE</div>
+                    <p id="status-message" class="text-slate-500">System is ready. Please upload images.</p>
+                </div>
+            </div>
+
+            <!-- All Workflow Step Sections -->
+            <div id="upload-step" class="bg-white p-8 rounded-xl shadow-lg max-w-xl mx-auto w-full">
+                <h2 class="text-2xl font-bold mb-4 text-center">Step 1: Upload Photos</h2>
+                <input type="file" multiple id="file-input" class="block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100"/>
+                <p id="file-count" class="text-sm mt-4 text-center"></p>
+                <button id="upload-button" class="mt-6 w-full flex justify-center items-center bg-indigo-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-indigo-700 disabled:bg-slate-400">Upload and Proceed</button>
+            </div>
+            
+            <div id="action-step" class="hidden text-center">
+                 <button id="action-button" class="bg-indigo-600 text-white font-bold py-3 px-8 rounded-lg hover:bg-indigo-700"></button>
+            </div>
+
+            <div id="labeling-step" class="hidden w-full">
+                <h2 class="text-3xl font-bold mb-2 text-center">Step 3: Label the People</h2>
+                <div id="labeling-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"></div>
+                <div class="flex justify-center mt-8"><button id="submit-labels-button" class="flex items-center bg-indigo-600 text-white font-bold py-3 px-8 rounded-lg hover:bg-indigo-700">Submit Labels</button></div>
+            </div>
+
+            <div id="filter-gallery" class="flex flex-col md:flex-row gap-8">
+                <aside id="filter-panel" class="w-full md:w-1/4 bg-white p-6 rounded-xl shadow-lg self-start h-fit">
+                    <h3 class="text-xl font-bold mb-4 border-b pb-2">Filters</h3>
+                    <div id="filter-options" class="space-y-4"></div>
+                    <button id="reset-filters-button" class="mt-6 w-full bg-slate-200 text-slate-800 font-bold py-2 px-4 rounded-lg hover:bg-slate-300">Reset Filters</button>
+                </aside>
+                <section id="gallery-container" class="w-full md:w-3/4">
+                     <p id="gallery-count" class="text-center text-slate-500 mb-4">Loading gallery...</p>
+                     <div id="gallery-grid" class="grid grid-cols-2 md:grid-cols-3 gap-4"></div>
+                </section>
+            </div>;
+
+        </main>
+    </div>
+
+    <script>
+    // ###############################################################
+    // ## THE FIX IS HERE: Wrap all code in DOMContentLoaded      ##
+    // ###############################################################
+    document.addEventListener('DOMContentLoaded', () => {
+
+        // --- DOM Element References ---
+        const statusText = document.getElementById('status-text');
+        const statusMessage = document.getElementById('status-message');
+        const spinner = document.getElementById('spinner');
+        const uploadStep = document.getElementById('upload-step');
+        const fileInput = document.getElementById('file-input');
+        const fileCount = document.getElementById('file-count');
+        const uploadButton = document.getElementById('upload-button');
+        const actionStep = document.getElementById('action-step');
+        const actionButton = document.getElementById('action-button');
+        const labelingStep = document.getElementById('labeling-step');
+        const labelingGrid = document.getElementById('labeling-grid');
+        const submitLabelsButton = document.getElementById('submit-labels-button');
+        const resultsStep = document.getElementById('filter-gallery');
+
+        let pollingInterval;
+        let isLabelingUIPopulated = false;
+
+        const updateUI = (state) => {
+            statusText.textContent = state.status;
+            statusMessage.textContent = state.message;
+            
+            const isProcessing = state.status.includes('ING') || state.status.includes('QUEUED');
+            spinner.classList.toggle('hidden', !isProcessing);
+            
+            [uploadStep, actionStep, labelingStep, resultsStep].forEach(el => el.classList.add('hidden'));
+
+            switch(state.status) {
+                case 'IDLE':
+                case 'ERROR':
+                    uploadStep.classList.remove('hidden');
+                    isLabelingUIPopulated = false;
+                    break;
+                case 'READY_FOR_CLUSTERING':
+                    actionStep.classList.remove('hidden');
+                    actionButton.textContent = 'Start Clustering';
+                    actionButton.onclick = handleCluster;
+                    break;
+                case 'READY_FOR_LABELING':
+                    labelingStep.classList.remove('hidden');
+                    if (!isLabelingUIPopulated) {
+                        populateLabelingUI();
+                        isLabelingUIPopulated = true;
+                    }
+                    break;
+                case 'READY_FOR_SCORING':
+                    actionStep.classList.remove('hidden');
+                    actionButton.textContent = 'Start Scoring';
+                    actionButton.onclick = handleScore;
+                    break;
+                case 'COMPLETE':
+                    resultsStep.classList.remove('hidden');
+                    populateGalleryUI();
+                    break;
+            }
+        };
+
+        const checkStatus = async () => {
+            try {
+                const response = await fetch('/api/status');
+                if (!response.ok) throw new Error(`Status check failed: ${response.status}`);
+                const state = await response.json();
+                updateUI(state);
+                
+                const isProcessing = state.status.includes('ING') || state.status.includes('QUEUED');
+                if (!isProcessing && pollingInterval) {
+                    clearInterval(pollingInterval);
+                    pollingInterval = null;
+                }
+            } catch (error) {
+                console.error("Failed to fetch status:", error);
+                statusText.textContent = 'CONNECTION ERROR';
+                statusMessage.textContent = 'Could not connect to the backend server.';
+                if (pollingInterval) clearInterval(pollingInterval);
+            }
+        };
+
+        const startPolling = () => {
+            if (pollingInterval) clearInterval(pollingInterval);
+            pollingInterval = setInterval(checkStatus, 3000);
+        };
+
+        const handleApiAction = async (endpoint, options = { method: 'POST' }, buttonElement) => {
+            if (buttonElement) {
+                buttonElement.disabled = true;
+                const originalText = buttonElement.innerHTML;
+                buttonElement.innerHTML = `<div class="spinner mr-2"></div> Processing...`;
+            }
+            try {
+                const response = await fetch(endpoint, options);
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.detail || `Request failed with status ${response.status}`);
+                }
+                await checkStatus();
+                if (endpoint === '/api/cluster' || endpoint === '/api/score') {
+                    startPolling();
+                }
+            } catch (error) {
+                console.error(`Action failed for ${endpoint}:`, error);
+                alert(`An error occurred: ${error.message}`);
+            } finally {
+                if (buttonElement) {
+                    buttonElement.disabled = false;
+                    buttonElement.innerHTML = originalText;
+                }
+            }
+        };
+
+        fileInput.addEventListener('change', () => {
+            fileCount.textContent = `${fileInput.files.length} files selected.`;
+        });
+        
+        uploadButton.addEventListener('click', () => {
+            if (fileInput.files.length === 0) return;
+            const formData = new FormData();
+            for (const file of fileInput.files) {
+                formData.append('images', file);
+            }
+            handleApiAction('/api/upload', { method: 'POST', body: formData }, uploadButton);
+        });
+
+        const handleCluster = () => handleApiAction('/api/cluster', { method: 'POST' }, actionButton);
+        const handleScore = () => handleApiAction('/api/score', { method: 'POST' }, actionButton);
+        
+        submitLabelsButton.addEventListener('click', () => {
+            const finalLabels = {};
+            const selectElements = document.querySelectorAll('#labeling-grid select[data-cluster-id]');
+            if (selectElements.length === 0) return alert("No clusters to label.");
+            
+            selectElements.forEach(select => {
+                finalLabels[select.dataset.clusterId] = select.value;
+            });
+
+            const blob = new Blob([JSON.stringify(finalLabels, null, 2)], { type: 'application/json' });
+            const file = new File([blob], 'cluster_labels.json', { type: 'application/json' });
+            const formData = new FormData();
+            formData.append('labels_file', file);
+            
+            handleApiAction('/api/labels', { method: 'POST', body: formData }, submitLabelsButton);
+        });
+
+        const populateLabelingUI = async () => {
+            try {
+                const response = await fetch('/api/clusters');
+                const data = await response.json();
+                labelingGrid.innerHTML = data.cluster_image_urls.map(url => {
+                    const clusterId = url.split('_').pop().split('.')[0];
+                    return `
+                        <div class="bg-white p-4 rounded-lg shadow-md">
+                            <img src="${url}" class="rounded-md w-full h-40 object-cover mb-4" />
+                            <select data-cluster-id="${clusterId}" class="w-full border-slate-300 rounded-md p-2 text-sm">
+                                <option value="other">Other</option>
+                                <option value="important">Important</option>
+                                <option value="main">Main</option>
+                            </select>
+                        </div>
+                    `;
+                }).join('');
+            } catch (error) {
+                console.error("Failed to populate labeling UI:", error);
+                labelingGrid.innerHTML = '<p class="text-red-500">Could not load cluster images.</p>';
+            }
+        };
+        
+        const populateGalleryUI = async () => {
+            try {
+                const response = await fetch('/api/gallery-data');
+                galleryData = await response.json();
+                renderFilters();
+                renderGallery();
+                applyFilters();
+            } catch (error) { console.error("Failed to populate gallery:", error); }
+        };
+
+        const renderFilters = () => {
+            const filterContainer = document.getElementById('filter-options');
+            if(!filterContainer) return;
+            const filterGroups = {
+                'Main Person': { eye: 0, smile: 1, focus: 2 },
+                'Important Person': { eye: 3, smile: 4, focus: 5 },
+                'Other People': { eye: 6, smile: 7, focus: 8 }
+            };
+            let html = '';
+            for (const [group, indices] of Object.entries(filterGroups)) {
+                html += `<div class="space-y-2">
+                            <h4 class="font-bold text-slate-800">${group}</h4>
+                            <label class="flex items-center"><input type="checkbox" data-filter-index="${indices.eye}" class="filter-cb h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"> <span class="ml-2 text-sm text-slate-600">Eyes Open</span></label>
+                            <label class="flex items-center"><input type="checkbox" data-filter-index="${indices.smile}" class="filter-cb h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"> <span class="ml-2 text-sm text-slate-600">Smiling</span></label>
+                            <label class="flex items-center"><input type="checkbox" data-filter-index="${indices.focus}" class="filter-cb h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"> <span class="ml-2 text-sm text-slate-600">In Focus</span></label>
+                        </div>`;
+            }
+            filterContainer.innerHTML = html;
+            document.querySelectorAll('.filter-cb').forEach(cb => cb.addEventListener('change', applyFilters));
+        };
+
+        const renderGallery = () => {
+            const galleryGrid = document.getElementById('gallery-grid');
+            
+            if (!galleryGrid) return;
+            galleryGrid.innerHTML = galleryData.map(photo => `
+                <div class="gallery-item" data-photo-path="${photo.photo_path}">
+                    <img src="${photo.image_url}" class="rounded-lg shadow-md w-full h-48 object-cover"/>
+                </div>
+            `).join('');
+        };
+
+        const applyFilters = () => {
+            const activeFilters = Array.from(document.querySelectorAll('.filter-cb:checked')).map(cb => parseInt(cb.dataset.filterIndex));
+            let visibleCount = 0;
+            document.querySelectorAll('.gallery-item').forEach(item => {
+                const photoData = galleryData.find(p => p.photo_path === item.dataset.photoPath);
+                const resultsStr = photoData?.results || 'ccccccccc';
+                const isVisible = activeFilters.every(index => resultsStr.charAt(index) === 'b');
+                item.classList.toggle('hidden', !isVisible);
+                if(isVisible) visibleCount++;
+            });
+            const galleryCount = document.getElementById('gallery-count');
+            if(galleryCount) galleryCount.textContent = `Showing ${visibleCount} of ${galleryData.length} photos.`;
+        };
+
+        // Initial Application Load
+        checkStatus();
+    });
+    </script>
+</body>
+</html>
