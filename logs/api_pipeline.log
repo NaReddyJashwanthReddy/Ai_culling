@@ -1135,3 +1135,40 @@ TypeError: join() argument must be str, bytes, or os.PathLike object, not 'Serie
 2025-09-20 14:54:05,586 - INFO - Loading dlib facial landmark model from: shape_predictor_68_face_landmarks.dat
 2025-09-20 14:54:09,299 - INFO - \u2705 Workflow complete. Scores saved to 'photo_scores.csv'
 2025-09-20 14:54:09,301 - INFO - State changed to COMPLETE: Scoring complete. Results are available.
+2025-09-20 18:00:37,051 - INFO - State changed to READY_FOR_CLUSTERING: 5 images uploaded. Ready to start clustering.
+2025-09-20 18:00:47,953 - INFO - State changed to CLUSTERING_QUEUED: Clustering process has been queued.
+2025-09-20 18:00:47,954 - INFO - State changed to CLUSTERING: Face clustering is in progress... This may take several minutes.
+2025-09-20 18:00:47,960 - INFO - --- Starting Face Clustering Pipeline ---
+2025-09-20 18:01:09,602 - INFO - FaceProcessor is building the 'ArcFace' model...
+2025-09-20 18:01:09,602 - INFO - FaceProcessor is building the 'ArcFace' model...
+2025-09-20 18:01:09,602 - INFO - FaceProcessor is building the 'ArcFace' model...
+2025-09-20 18:01:09,602 - INFO - FaceProcessor is building the 'ArcFace' model...
+2025-09-20 18:01:18,155 - INFO - DeepFace model built successfully.
+2025-09-20 18:01:18,185 - INFO - DeepFace model built successfully.
+2025-09-20 18:01:18,189 - INFO - DeepFace model built successfully.
+2025-09-20 18:01:18,205 - INFO - DeepFace model built successfully.
+2025-09-20 18:01:18,209 - INFO - DeepFace model built successfully.
+2025-09-20 18:03:32,475 - INFO - Progress: Processed 1/5 images...
+2025-09-20 18:03:32,855 - INFO - Progress: Processed 2/5 images...
+2025-09-20 18:03:33,156 - INFO - Progress: Processed 3/5 images...
+2025-09-20 18:03:33,371 - INFO - Progress: Processed 4/5 images...
+2025-09-20 18:03:33,469 - INFO - Progress: Processed 5/5 images...
+2025-09-20 18:04:26,416 - INFO - Total faces detected: 35
+2025-09-20 18:04:26,538 - INFO - Clustering 35 faces...
+2025-09-20 18:04:27,031 - INFO - Clustering complete. Found 24 unique people.
+2025-09-20 18:04:27,133 - INFO - Full face data saved to 'face_data.csv'
+2025-09-20 18:04:27,134 - INFO - Saving representative faces for each cluster...
+2025-09-20 18:04:33,818 - INFO - --- Pipeline Complete ---
+2025-09-20 18:04:33,826 - INFO - State changed to READY_FOR_LABELING: Clustering complete. Please label the clusters.
+2025-09-20 18:05:04,790 - INFO - State changed to READY_FOR_SCORING: Labels uploaded. Ready to start scoring.
+2025-09-20 18:05:08,033 - INFO - State changed to SCORING_QUEUED: Scoring process has been queued.
+2025-09-20 18:05:08,034 - INFO - State changed to SCORING: Photo scoring is in progress... This may take a few minutes.
+2025-09-20 18:05:08,040 - INFO - --- Starting Stage 3: Photo Scoring Pipeline ---
+2025-09-20 18:05:08,097 - INFO - Starting parallel scoring with 12 worker processes.
+2025-09-20 18:05:11,553 - INFO - Loading dlib facial landmark model from: shape_predictor_68_face_landmarks.dat
+2025-09-20 18:05:11,553 - INFO - Loading dlib facial landmark model from: shape_predictor_68_face_landmarks.dat
+2025-09-20 18:05:11,553 - INFO - Loading dlib facial landmark model from: shape_predictor_68_face_landmarks.dat
+2025-09-20 18:05:11,554 - INFO - Loading dlib facial landmark model from: shape_predictor_68_face_landmarks.dat
+2025-09-20 18:05:11,556 - INFO - Loading dlib facial landmark model from: shape_predictor_68_face_landmarks.dat
+2025-09-20 18:05:15,391 - INFO - \u2705 Workflow complete. Scores saved to 'photo_scores.csv'
+2025-09-20 18:05:15,393 - INFO - State changed to COMPLETE: Scoring complete. Results are available.
