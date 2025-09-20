@@ -202,4 +202,3 @@ async def get_gallery_data(filters: Optional[str] = Query(None)):
 
     gallery_df['image_url'] = '/images/' + gallery_df['photo_path']
     return JSONResponse(content=json.loads(gallery_df.to_json(orient='records')))
-
