@@ -2,8 +2,8 @@ import os
 import shutil
 import json
 import pandas as pd
-from typing import List
-from fastapi import FastAPI, File, UploadFile, BackgroundTasks, HTTPException
+from typing import List, Optional
+from fastapi import FastAPI, File, UploadFile, BackgroundTasks, HTTPException, Query
 from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 
@@ -157,10 +157,10 @@ async def trigger_scoring(background_tasks: BackgroundTasks):
 
 @app.get("/api/gallery-data", tags=["Workflow Results"])
 @handle_exception
-async def get_gallery_data():
+async def get_gallery_data(filters: Optional[str] = Query(None)):
     """
-    Loads all original images and merges them with scoring data to provide
-    a complete dataset for the interactive frontend gallery.
+    Loads all original images, merges with scoring data, and applies
+    server-side filters before returning results for the interactive gallery.
     """
     if APP_STATE["status"] != "COMPLETE":
         raise HTTPException(status_code=404, detail=f"Results not yet available. Current status: {APP_STATE['status']}")
@@ -168,31 +168,38 @@ async def get_gallery_data():
     image_folder = config['io']['image_folder']
     results_csv = config['scoring']['output_csv']
 
-    # 1. Get all original image files from the event folder
     try:
         all_images = [f for f in os.listdir(image_folder) if f.lower().endswith(('.png', '.jpg', '.jpeg'))]
         images_df = pd.DataFrame(all_images, columns=['photo_path'])
-        images_df['image_url'] = "/event_images/"+images_df['photo_path']
     except FileNotFoundError:
         raise HTTPException(status_code=404, detail=f"Image folder '{image_folder}' not found.")
 
-    # 2. Load scoring data if it exists
-    if not os.path.exists(results_csv):
-        logger.warning("Results CSV not found. Returning all images without scores.")
-        return JSONResponse(content=json.loads(images_df.to_json(orient='records')))
+    scores_df = pd.DataFrame() # Create an empty DataFrame by default
+    if os.path.exists(results_csv):
+        try:
+            scores_df = pd.read_csv(results_csv)
+        except pd.errors.EmptyDataError:
+            logger.warning("Results CSV is empty.")
+            pass # Keep scores_df as empty
 
-    try:
-        scores_df = pd.read_csv(results_csv)
-    except pd.errors.EmptyDataError:
-        logger.warning("Results CSV is empty. Returning all images without scores.")
-        return JSONResponse(content=json.loads(images_df.to_json(orient='records')))
-
-    # 3. Merge them, keeping ALL images (a "left" merge)
+    # Merge dataframes; this will keep all images even if scores_df is empty
     gallery_df = pd.merge(images_df, scores_df, on='photo_path', how='left')
-    app.mount("/event_images", StaticFiles(directory="event_images"), name="static_images")
-    # Fill NaN values for images that were not scored with safe defaults
-    gallery_df['results'].fillna('ccccccccc', inplace=True) # Default to all N/A
-    for col in ['main', 'important', 'others', 'total']:
-        gallery_df[col].fillna(0, inplace=True)
-        gallery_df[col] = gallery_df[col].astype(int)
+    
+    # Fill NaN values for images that were not scored or if the file was empty
+    gallery_df['results'].fillna('ccccccccc', inplace=True)
+    
+    # Server-side filtering logic
+    if filters and filters.strip():
+        try:
+            filter_indices = [int(i) for i in filters.split(',')]
+            mask = pd.Series([True] * len(gallery_df))
+            for index in filter_indices:
+                if 0 <= index < 9:
+                    mask = mask & (gallery_df['results'].str[index] == 'b')
+            gallery_df = gallery_df[mask]
+        except (ValueError, IndexError):
+            raise HTTPException(status_code=400, detail="Invalid filter format.")
+
+    gallery_df['image_url'] = '/images/' + gallery_df['photo_path']
     return JSONResponse(content=json.loads(gallery_df.to_json(orient='records')))
+

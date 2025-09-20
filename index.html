@@ -290,15 +290,32 @@
         const applyFilters = () => {
             const activeFilters = Array.from(document.querySelectorAll('.filter-cb:checked')).map(cb => parseInt(cb.dataset.filterIndex));
             let visibleCount = 0;
-            document.querySelectorAll('.gallery-item').forEach(item => {
-                const photoData = galleryData.find(p => p.photo_path === item.dataset.photoPath);
-                const resultsStr = photoData?.results || 'ccccccccc';
-                const isVisible = activeFilters.every(index => resultsStr.charAt(index) === 'b');
-                item.classList.toggle('hidden', !isVisible);
-                if(isVisible) visibleCount++;
+
+            // Instead of looping over DOM items, we loop over our true data source.
+            galleryData.forEach(photo => {
+                const resultsStr = photo.results || 'ccccccccc';
+                
+                // The filtering logic is the same, as it was correct.
+                const shouldBeVisible = activeFilters.every(index => resultsStr.charAt(index) === 'b');
+                
+                // Find the corresponding image element in the DOM.
+                const imageElement = document.querySelector(`.gallery-item[data-photo-path="${photo.photo_path}"]`);
+
+                if (imageElement) {
+                    // This is a more direct and forceful way to hide/show elements.
+                    if (shouldBeVisible) {
+                        imageElement.style.display = 'block';
+                        visibleCount++;
+                    } else {
+                        imageElement.style.display = 'none';
+                    }
+                }
             });
+
             const galleryCount = document.getElementById('gallery-count');
-            if(galleryCount) galleryCount.textContent = `Showing ${visibleCount} of ${galleryData.length} photos.`;
+            if (galleryCount) {
+                galleryCount.textContent = `Showing ${visibleCount} of ${galleryData.length} photos.`;
+            }
         };
 
         // Initial Application Load
