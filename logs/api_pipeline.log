@@ -236,3 +236,868 @@ KeyError: 'thresholds'
 2025-09-14 16:10:43,813 - INFO - Loading dlib facial landmark model from: shape_predictor_68_face_landmarks.dat
 2025-09-14 16:10:46,230 - INFO - \u2705 Workflow complete. Scores saved to 'photo_scores.csv'
 2025-09-14 16:10:46,231 - INFO - Background task finished: Scoring completed successfully.
+2025-09-16 00:12:53,897 - INFO - State changed to READY_FOR_CLUSTERING: 3 images uploaded. Ready to start clustering.
+2025-09-16 00:13:12,264 - INFO - State changed to CLUSTERING_QUEUED: Clustering process has been queued.
+2025-09-16 00:13:12,266 - INFO - State changed to CLUSTERING: Face clustering is in progress... This may take several minutes.
+2025-09-16 00:13:12,272 - INFO - --- Starting Face Clustering Pipeline ---
+2025-09-16 00:13:24,631 - INFO - FaceProcessor is building the 'ArcFace' model...
+2025-09-16 00:13:24,632 - INFO - FaceProcessor is building the 'ArcFace' model...
+2025-09-16 00:13:24,679 - INFO - FaceProcessor is building the 'ArcFace' model...
+2025-09-16 00:13:28,439 - INFO - DeepFace model built successfully.
+2025-09-16 00:13:28,442 - INFO - DeepFace model built successfully.
+2025-09-16 00:13:28,464 - INFO - DeepFace model built successfully.
+2025-09-16 00:14:20,180 - INFO - Progress: Processed 1/3 images...
+2025-09-16 00:14:21,107 - INFO - Progress: Processed 2/3 images...
+2025-09-16 00:14:22,290 - INFO - Progress: Processed 3/3 images...
+2025-09-16 00:14:28,593 - INFO - Total faces detected: 19
+2025-09-16 00:14:28,692 - INFO - Clustering 19 faces...
+2025-09-16 00:14:29,128 - INFO - Clustering complete. Found 14 unique people.
+2025-09-16 00:14:29,205 - INFO - Full face data saved to 'face_data.csv'
+2025-09-16 00:14:29,205 - INFO - Saving representative faces for each cluster...
+2025-09-16 00:14:34,636 - INFO - --- Pipeline Complete ---
+2025-09-16 00:14:34,637 - INFO - State changed to READY_FOR_LABELING: Clustering complete. Please label the clusters.
+2025-09-16 00:29:51,166 - INFO - State changed to READY_FOR_SCORING: Labels uploaded. Ready to start scoring.
+2025-09-16 00:31:09,225 - INFO - State changed to SCORING_QUEUED: Scoring process has been queued.
+2025-09-16 00:31:09,228 - INFO - State changed to SCORING: Photo scoring is in progress... This may take a few minutes.
+2025-09-16 00:31:09,229 - INFO - State changed to ERROR: An error occurred during scoring: load_config() takes 0 positional arguments but 1 was given
+2025-09-16 00:31:09,229 - ERROR - Scoring pipeline failed.
+Traceback (most recent call last):
+  File "C:\Users\tangw\Ai_culling\Backend_main.py", line 49, in run_scoring_task
+    config = load_config('config.yaml')
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: load_config() takes 0 positional arguments but 1 was given
+2025-09-16 00:36:25,624 - INFO - State changed to READY_FOR_CLUSTERING: 3 images uploaded. Ready to start clustering.
+2025-09-16 00:36:56,600 - INFO - State changed to CLUSTERING_QUEUED: Clustering process has been queued.
+2025-09-16 00:36:56,601 - INFO - State changed to CLUSTERING: Face clustering is in progress... This may take several minutes.
+2025-09-16 00:36:56,611 - INFO - --- Starting Face Clustering Pipeline ---
+2025-09-16 00:37:07,975 - INFO - FaceProcessor is building the 'ArcFace' model...
+2025-09-16 00:37:07,975 - INFO - FaceProcessor is building the 'ArcFace' model...
+2025-09-16 00:37:07,975 - INFO - FaceProcessor is building the 'ArcFace' model...
+2025-09-16 00:37:11,397 - INFO - DeepFace model built successfully.
+2025-09-16 00:37:11,397 - INFO - DeepFace model built successfully.
+2025-09-16 00:37:11,404 - INFO - DeepFace model built successfully.
+2025-09-16 00:38:09,304 - INFO - Progress: Processed 1/3 images...
+2025-09-16 00:38:12,564 - INFO - Progress: Processed 2/3 images...
+2025-09-16 00:38:12,565 - INFO - Progress: Processed 3/3 images...
+2025-09-16 00:38:17,994 - INFO - Total faces detected: 21
+2025-09-16 00:38:18,095 - INFO - Clustering 21 faces...
+2025-09-16 00:38:18,367 - INFO - Clustering complete. Found 15 unique people.
+2025-09-16 00:38:18,426 - INFO - Full face data saved to 'face_data.csv'
+2025-09-16 00:38:18,426 - INFO - Saving representative faces for each cluster...
+2025-09-16 00:38:22,819 - INFO - --- Pipeline Complete ---
+2025-09-16 00:38:22,820 - INFO - State changed to READY_FOR_LABELING: Clustering complete. Please label the clusters.
+2025-09-16 00:39:37,232 - INFO - State changed to READY_FOR_SCORING: Labels uploaded. Ready to start scoring.
+2025-09-16 00:40:02,245 - INFO - State changed to SCORING_QUEUED: Scoring process has been queued.
+2025-09-16 00:40:02,248 - INFO - State changed to SCORING: Photo scoring is in progress... This may take a few minutes.
+2025-09-16 00:40:02,257 - INFO - --- Starting Stage 3: Photo Scoring Pipeline ---
+2025-09-16 00:40:02,306 - INFO - Starting parallel scoring with 12 worker processes.
+2025-09-16 00:40:05,001 - INFO - Loading dlib facial landmark model from: shape_predictor_68_face_landmarks.dat
+2025-09-16 00:40:05,001 - INFO - Loading dlib facial landmark model from: shape_predictor_68_face_landmarks.dat
+2025-09-16 00:40:05,001 - INFO - Loading dlib facial landmark model from: shape_predictor_68_face_landmarks.dat
+2025-09-16 00:40:07,417 - INFO - \u2705 Workflow complete. Scores saved to 'photo_scores.csv'
+2025-09-16 00:40:07,417 - INFO - State changed to COMPLETE: Scoring complete. Results are available.
+2025-09-16 00:40:32,493 - ERROR - An unexpected error occurred in function 'get_results': 'filename'
+Traceback (most recent call last):
+  File "C:\Users\tangw\anaconda3\Lib\site-packages\pandas\core\indexes\base.py", line 3805, in get_loc
+    return self._engine.get_loc(casted_key)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "index.pyx", line 167, in pandas._libs.index.IndexEngine.get_loc
+  File "index.pyx", line 196, in pandas._libs.index.IndexEngine.get_loc
+  File "pandas\\_libs\\hashtable_class_helper.pxi", line 7081, in pandas._libs.hashtable.PyObjectHashTable.get_item
+  File "pandas\\_libs\\hashtable_class_helper.pxi", line 7089, in pandas._libs.hashtable.PyObjectHashTable.get_item
+KeyError: 'filename'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\tangw\Ai_culling\utils\handler.py", line 15, in wrapper
+    return await func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tangw\Ai_culling\Backend_main.py", line 169, in get_results
+    df['image_url'] = '/images/' + df['filename']
+                                   ~~^^^^^^^^^^^^
+  File "C:\Users\tangw\anaconda3\Lib\site-packages\pandas\core\frame.py", line 4102, in __getitem__
+    indexer = self.columns.get_loc(key)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tangw\anaconda3\Lib\site-packages\pandas\core\indexes\base.py", line 3812, in get_loc
+    raise KeyError(key) from err
+KeyError: 'filename'
+2025-09-17 11:22:42,030 - INFO - State changed to READY_FOR_CLUSTERING: 5 images uploaded. Ready to start clustering.
+2025-09-17 11:22:52,941 - INFO - State changed to CLUSTERING_QUEUED: Clustering process has been queued.
+2025-09-17 11:22:52,943 - INFO - State changed to CLUSTERING: Face clustering is in progress... This may take several minutes.
+2025-09-17 11:22:52,948 - INFO - --- Starting Face Clustering Pipeline ---
+2025-09-17 11:23:13,410 - INFO - FaceProcessor is building the 'ArcFace' model...
+2025-09-17 11:23:13,410 - INFO - FaceProcessor is building the 'ArcFace' model...
+2025-09-17 11:23:13,425 - INFO - FaceProcessor is building the 'ArcFace' model...
+2025-09-17 11:23:13,428 - INFO - FaceProcessor is building the 'ArcFace' model...
+2025-09-17 11:23:13,458 - INFO - FaceProcessor is building the 'ArcFace' model...
+2025-09-17 11:23:19,078 - INFO - DeepFace model built successfully.
+2025-09-17 11:23:19,216 - INFO - DeepFace model built successfully.
+2025-09-17 11:23:19,227 - INFO - DeepFace model built successfully.
+2025-09-17 11:23:19,234 - INFO - DeepFace model built successfully.
+2025-09-17 11:23:19,246 - INFO - DeepFace model built successfully.
+2025-09-17 11:25:13,908 - INFO - Progress: Processed 1/5 images...
+2025-09-17 11:25:15,128 - INFO - Progress: Processed 2/5 images...
+2025-09-17 11:25:16,095 - INFO - Progress: Processed 3/5 images...
+2025-09-17 11:25:16,216 - INFO - Progress: Processed 4/5 images...
+2025-09-17 11:25:16,481 - INFO - Progress: Processed 5/5 images...
+2025-09-17 11:25:39,490 - INFO - Total faces detected: 35
+2025-09-17 11:25:39,595 - INFO - Clustering 35 faces...
+2025-09-17 11:25:40,025 - INFO - Clustering complete. Found 24 unique people.
+2025-09-17 11:25:40,107 - INFO - Full face data saved to 'face_data.csv'
+2025-09-17 11:25:40,108 - INFO - Saving representative faces for each cluster...
+2025-09-17 11:25:46,569 - INFO - --- Pipeline Complete ---
+2025-09-17 11:25:46,570 - INFO - State changed to READY_FOR_LABELING: Clustering complete. Please label the clusters.
+2025-09-17 11:27:39,650 - INFO - State changed to READY_FOR_SCORING: Labels uploaded. Ready to start scoring.
+2025-09-17 11:27:50,004 - INFO - State changed to SCORING_QUEUED: Scoring process has been queued.
+2025-09-17 11:27:50,008 - INFO - State changed to SCORING: Photo scoring is in progress... This may take a few minutes.
+2025-09-17 11:27:50,013 - INFO - --- Starting Stage 3: Photo Scoring Pipeline ---
+2025-09-17 11:27:50,075 - INFO - Starting parallel scoring with 12 worker processes.
+2025-09-17 11:27:53,374 - INFO - Loading dlib facial landmark model from: shape_predictor_68_face_landmarks.dat
+2025-09-17 11:27:53,374 - INFO - Loading dlib facial landmark model from: shape_predictor_68_face_landmarks.dat
+2025-09-17 11:27:53,374 - INFO - Loading dlib facial landmark model from: shape_predictor_68_face_landmarks.dat
+2025-09-17 11:27:53,374 - INFO - Loading dlib facial landmark model from: shape_predictor_68_face_landmarks.dat
+2025-09-17 11:27:53,374 - INFO - Loading dlib facial landmark model from: shape_predictor_68_face_landmarks.dat
+2025-09-17 11:27:55,681 - ERROR - An uncaught exception occurred in _calculate_all_person_metrics: unhashable type: 'dict'
+Traceback (most recent call last):
+  File "C:\Users\tangw\Ai_culling\utils\handler.py", line 35, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tangw\Ai_culling\stage3\scoring_engine.py", line 64, in _calculate_all_person_metrics
+    category_metrics.setdefault(category, []).append(metrics)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: unhashable type: 'dict'
+2025-09-17 11:27:55,707 - ERROR - An uncaught exception occurred in _calculate_all_person_metrics: unhashable type: 'dict'
+Traceback (most recent call last):
+  File "C:\Users\tangw\Ai_culling\utils\handler.py", line 35, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tangw\Ai_culling\stage3\scoring_engine.py", line 64, in _calculate_all_person_metrics
+    category_metrics.setdefault(category, []).append(metrics)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: unhashable type: 'dict'
+2025-09-17 11:27:55,746 - ERROR - An uncaught exception occurred in _calculate_all_person_metrics: unhashable type: 'dict'
+Traceback (most recent call last):
+  File "C:\Users\tangw\Ai_culling\utils\handler.py", line 35, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tangw\Ai_culling\stage3\scoring_engine.py", line 64, in _calculate_all_person_metrics
+    category_metrics.setdefault(category, []).append(metrics)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: unhashable type: 'dict'
+2025-09-17 11:27:56,437 - ERROR - An uncaught exception occurred in _calculate_all_person_metrics: unhashable type: 'dict'
+Traceback (most recent call last):
+  File "C:\Users\tangw\Ai_culling\utils\handler.py", line 35, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tangw\Ai_culling\stage3\scoring_engine.py", line 64, in _calculate_all_person_metrics
+    category_metrics.setdefault(category, []).append(metrics)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: unhashable type: 'dict'
+2025-09-17 11:27:56,449 - ERROR - An uncaught exception occurred in _calculate_all_person_metrics: unhashable type: 'dict'
+Traceback (most recent call last):
+  File "C:\Users\tangw\Ai_culling\utils\handler.py", line 35, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tangw\Ai_culling\stage3\scoring_engine.py", line 64, in _calculate_all_person_metrics
+    category_metrics.setdefault(category, []).append(metrics)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: unhashable type: 'dict'
+2025-09-17 11:27:57,173 - INFO - State changed to ERROR: An error occurred during scoring: 'NoneType' object has no attribute 'get'
+2025-09-17 11:27:57,184 - ERROR - Scoring pipeline failed.
+concurrent.futures.process._RemoteTraceback: 
+"""
+Traceback (most recent call last):
+  File "C:\Users\tangw\anaconda3\Lib\concurrent\futures\process.py", line 263, in _process_worker
+    r = call_item.fn(*call_item.args, **call_item.kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tangw\Ai_culling\stage3\score_pipeline.py", line 29, in score_photo_worker
+    scores, length = scorer.score_photo(image_path, people_df)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tangw\Ai_culling\stage3\scoring_engine.py", line 48, in score_photo
+    return self._aggregate_scores(category_metrics)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tangw\Ai_culling\stage3\scoring_engine.py", line 94, in _aggregate_scores
+    metrics_list = category_metrics.get(category, [])
+                   ^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'get'
+"""
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\tangw\Ai_culling\Backend_main.py", line 51, in run_scoring_task
+    orchestrator.run()
+  File "C:\Users\tangw\Ai_culling\stage3\score_pipeline.py", line 76, in run
+    all_scores = self._run_scoring_in_parallel(photos_to_score)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tangw\Ai_culling\stage3\score_pipeline.py", line 128, in _run_scoring_in_parallel
+    result = future.result()
+             ^^^^^^^^^^^^^^^
+  File "C:\Users\tangw\anaconda3\Lib\concurrent\futures\_base.py", line 449, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tangw\anaconda3\Lib\concurrent\futures\_base.py", line 401, in __get_result
+    raise self._exception
+AttributeError: 'NoneType' object has no attribute 'get'
+2025-09-17 11:37:55,364 - INFO - State changed to READY_FOR_CLUSTERING: 5 images uploaded. Ready to start clustering.
+2025-09-17 11:38:27,287 - INFO - State changed to CLUSTERING_QUEUED: Clustering process has been queued.
+2025-09-17 11:38:27,289 - INFO - State changed to CLUSTERING: Face clustering is in progress... This may take several minutes.
+2025-09-17 11:38:27,295 - INFO - --- Starting Face Clustering Pipeline ---
+2025-09-17 11:38:46,488 - INFO - FaceProcessor is building the 'ArcFace' model...
+2025-09-17 11:38:46,516 - INFO - FaceProcessor is building the 'ArcFace' model...
+2025-09-17 11:38:46,517 - INFO - FaceProcessor is building the 'ArcFace' model...
+2025-09-17 11:38:46,522 - INFO - FaceProcessor is building the 'ArcFace' model...
+2025-09-17 11:38:46,526 - INFO - FaceProcessor is building the 'ArcFace' model...
+2025-09-17 11:38:52,494 - INFO - DeepFace model built successfully.
+2025-09-17 11:38:52,506 - INFO - DeepFace model built successfully.
+2025-09-17 11:38:52,512 - INFO - DeepFace model built successfully.
+2025-09-17 11:38:52,518 - INFO - DeepFace model built successfully.
+2025-09-17 11:38:52,545 - INFO - DeepFace model built successfully.
+2025-09-17 11:40:17,644 - INFO - Progress: Processed 1/5 images...
+2025-09-17 11:40:18,915 - INFO - Progress: Processed 2/5 images...
+2025-09-17 11:40:19,952 - INFO - Progress: Processed 3/5 images...
+2025-09-17 11:40:20,005 - INFO - Progress: Processed 4/5 images...
+2025-09-17 11:40:20,100 - INFO - Progress: Processed 5/5 images...
+2025-09-17 11:40:30,258 - INFO - Total faces detected: 35
+2025-09-17 11:40:30,303 - INFO - Clustering 35 faces...
+2025-09-17 11:40:30,374 - INFO - Clustering complete. Found 24 unique people.
+2025-09-17 11:40:30,431 - INFO - Full face data saved to 'face_data.csv'
+2025-09-17 11:40:30,432 - INFO - Saving representative faces for each cluster...
+2025-09-17 11:40:37,458 - INFO - --- Pipeline Complete ---
+2025-09-17 11:40:37,459 - INFO - State changed to READY_FOR_LABELING: Clustering complete. Please label the clusters.
+2025-09-17 11:40:54,051 - INFO - State changed to READY_FOR_SCORING: Labels uploaded. Ready to start scoring.
+2025-09-17 11:40:56,804 - INFO - State changed to SCORING_QUEUED: Scoring process has been queued.
+2025-09-17 11:40:56,805 - INFO - State changed to SCORING: Photo scoring is in progress... This may take a few minutes.
+2025-09-17 11:40:56,810 - INFO - --- Starting Stage 3: Photo Scoring Pipeline ---
+2025-09-17 11:40:56,851 - INFO - Starting parallel scoring with 12 worker processes.
+2025-09-17 11:41:00,338 - INFO - Loading dlib facial landmark model from: shape_predictor_68_face_landmarks.dat
+2025-09-17 11:41:00,338 - INFO - Loading dlib facial landmark model from: shape_predictor_68_face_landmarks.dat
+2025-09-17 11:41:00,338 - INFO - Loading dlib facial landmark model from: shape_predictor_68_face_landmarks.dat
+2025-09-17 11:41:00,348 - INFO - Loading dlib facial landmark model from: shape_predictor_68_face_landmarks.dat
+2025-09-17 11:41:00,357 - INFO - Loading dlib facial landmark model from: shape_predictor_68_face_landmarks.dat
+2025-09-17 11:41:04,103 - INFO - \u2705 Workflow complete. Scores saved to 'photo_scores.csv'
+2025-09-17 11:41:04,105 - INFO - State changed to COMPLETE: Scoring complete. Results are available.
+2025-09-17 11:41:06,418 - ERROR - An unexpected error occurred in function 'get_results': 'filename'
+Traceback (most recent call last):
+  File "C:\Users\tangw\anaconda3\Lib\site-packages\pandas\core\indexes\base.py", line 3805, in get_loc
+    return self._engine.get_loc(casted_key)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "index.pyx", line 167, in pandas._libs.index.IndexEngine.get_loc
+  File "index.pyx", line 196, in pandas._libs.index.IndexEngine.get_loc
+  File "pandas\\_libs\\hashtable_class_helper.pxi", line 7081, in pandas._libs.hashtable.PyObjectHashTable.get_item
+  File "pandas\\_libs\\hashtable_class_helper.pxi", line 7089, in pandas._libs.hashtable.PyObjectHashTable.get_item
+KeyError: 'filename'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\tangw\Ai_culling\utils\handler.py", line 15, in wrapper
+    return await func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tangw\Ai_culling\Backend_main.py", line 174, in get_results
+    df['image_url'] = '/images/' + df['filename']
+                                   ~~^^^^^^^^^^^^
+  File "C:\Users\tangw\anaconda3\Lib\site-packages\pandas\core\frame.py", line 4102, in __getitem__
+    indexer = self.columns.get_loc(key)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tangw\anaconda3\Lib\site-packages\pandas\core\indexes\base.py", line 3812, in get_loc
+    raise KeyError(key) from err
+KeyError: 'filename'
+2025-09-17 11:52:08,456 - ERROR - An unexpected error occurred in function 'get_results': 'filename'
+Traceback (most recent call last):
+  File "C:\Users\tangw\anaconda3\Lib\site-packages\pandas\core\indexes\base.py", line 3805, in get_loc
+    return self._engine.get_loc(casted_key)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "index.pyx", line 167, in pandas._libs.index.IndexEngine.get_loc
+  File "index.pyx", line 196, in pandas._libs.index.IndexEngine.get_loc
+  File "pandas\\_libs\\hashtable_class_helper.pxi", line 7081, in pandas._libs.hashtable.PyObjectHashTable.get_item
+  File "pandas\\_libs\\hashtable_class_helper.pxi", line 7089, in pandas._libs.hashtable.PyObjectHashTable.get_item
+KeyError: 'filename'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\tangw\Ai_culling\utils\handler.py", line 15, in wrapper
+    return await func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tangw\Ai_culling\Backend_main.py", line 174, in get_results
+    df['image_url'] = '/images/' + df['filename']
+                                   ~~^^^^^^^^^^^^
+  File "C:\Users\tangw\anaconda3\Lib\site-packages\pandas\core\frame.py", line 4102, in __getitem__
+    indexer = self.columns.get_loc(key)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tangw\anaconda3\Lib\site-packages\pandas\core\indexes\base.py", line 3812, in get_loc
+    raise KeyError(key) from err
+KeyError: 'filename'
+2025-09-17 11:52:50,637 - INFO - State changed to READY_FOR_CLUSTERING: 5 images uploaded. Ready to start clustering.
+2025-09-17 11:52:53,149 - INFO - State changed to CLUSTERING_QUEUED: Clustering process has been queued.
+2025-09-17 11:52:53,152 - INFO - State changed to CLUSTERING: Face clustering is in progress... This may take several minutes.
+2025-09-17 11:52:53,160 - INFO - --- Starting Face Clustering Pipeline ---
+2025-09-17 11:53:05,910 - INFO - FaceProcessor is building the 'ArcFace' model...
+2025-09-17 11:53:05,911 - INFO - FaceProcessor is building the 'ArcFace' model...
+2025-09-17 11:53:05,914 - INFO - FaceProcessor is building the 'ArcFace' model...
+2025-09-17 11:53:05,925 - INFO - FaceProcessor is building the 'ArcFace' model...
+2025-09-17 11:53:05,966 - INFO - FaceProcessor is building the 'ArcFace' model...
+2025-09-17 11:53:11,569 - INFO - DeepFace model built successfully.
+2025-09-17 11:53:11,634 - INFO - DeepFace model built successfully.
+2025-09-17 11:53:11,760 - INFO - DeepFace model built successfully.
+2025-09-17 11:53:11,772 - INFO - DeepFace model built successfully.
+2025-09-17 11:53:11,805 - INFO - DeepFace model built successfully.
+2025-09-17 11:54:37,259 - INFO - Progress: Processed 1/5 images...
+2025-09-17 11:54:39,036 - INFO - Progress: Processed 2/5 images...
+2025-09-17 11:54:40,239 - INFO - Progress: Processed 3/5 images...
+2025-09-17 11:54:40,365 - INFO - Progress: Processed 4/5 images...
+2025-09-17 11:54:40,570 - INFO - Progress: Processed 5/5 images...
+2025-09-17 11:54:49,170 - INFO - Total faces detected: 35
+2025-09-17 11:54:49,274 - INFO - Clustering 35 faces...
+2025-09-17 11:54:49,634 - INFO - Clustering complete. Found 24 unique people.
+2025-09-17 11:54:49,742 - INFO - Full face data saved to 'face_data.csv'
+2025-09-17 11:54:49,743 - INFO - Saving representative faces for each cluster...
+2025-09-17 11:54:57,990 - INFO - --- Pipeline Complete ---
+2025-09-17 11:54:57,990 - INFO - State changed to READY_FOR_LABELING: Clustering complete. Please label the clusters.
+2025-09-17 11:59:42,502 - INFO - State changed to READY_FOR_SCORING: Labels uploaded. Ready to start scoring.
+2025-09-17 11:59:48,601 - INFO - State changed to SCORING_QUEUED: Scoring process has been queued.
+2025-09-17 11:59:48,602 - INFO - State changed to SCORING: Photo scoring is in progress... This may take a few minutes.
+2025-09-17 11:59:48,607 - INFO - --- Starting Stage 3: Photo Scoring Pipeline ---
+2025-09-17 11:59:48,656 - INFO - Starting parallel scoring with 12 worker processes.
+2025-09-17 11:59:51,907 - INFO - Loading dlib facial landmark model from: shape_predictor_68_face_landmarks.dat
+2025-09-17 11:59:51,907 - INFO - Loading dlib facial landmark model from: shape_predictor_68_face_landmarks.dat
+2025-09-17 11:59:51,907 - INFO - Loading dlib facial landmark model from: shape_predictor_68_face_landmarks.dat
+2025-09-17 11:59:51,909 - INFO - Loading dlib facial landmark model from: shape_predictor_68_face_landmarks.dat
+2025-09-17 11:59:51,909 - INFO - Loading dlib facial landmark model from: shape_predictor_68_face_landmarks.dat
+2025-09-17 11:59:57,157 - INFO - \u2705 Workflow complete. Scores saved to 'photo_scores.csv'
+2025-09-17 11:59:57,159 - INFO - State changed to COMPLETE: Scoring complete. Results are available.
+2025-09-17 11:59:57,652 - ERROR - An unexpected error occurred in function 'get_results': 'filename'
+Traceback (most recent call last):
+  File "C:\Users\tangw\anaconda3\Lib\site-packages\pandas\core\indexes\base.py", line 3805, in get_loc
+    return self._engine.get_loc(casted_key)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "index.pyx", line 167, in pandas._libs.index.IndexEngine.get_loc
+  File "index.pyx", line 196, in pandas._libs.index.IndexEngine.get_loc
+  File "pandas\\_libs\\hashtable_class_helper.pxi", line 7081, in pandas._libs.hashtable.PyObjectHashTable.get_item
+  File "pandas\\_libs\\hashtable_class_helper.pxi", line 7089, in pandas._libs.hashtable.PyObjectHashTable.get_item
+KeyError: 'filename'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\tangw\Ai_culling\utils\handler.py", line 15, in wrapper
+    return await func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tangw\Ai_culling\Backend_main.py", line 174, in get_results
+    df['image_url'] = '/images/' + df['filename']
+                                   ~~^^^^^^^^^^^^
+  File "C:\Users\tangw\anaconda3\Lib\site-packages\pandas\core\frame.py", line 4102, in __getitem__
+    indexer = self.columns.get_loc(key)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tangw\anaconda3\Lib\site-packages\pandas\core\indexes\base.py", line 3812, in get_loc
+    raise KeyError(key) from err
+KeyError: 'filename'
+2025-09-19 13:30:39,628 - INFO - State changed to READY_FOR_CLUSTERING: 5 images uploaded. Ready to start clustering.
+2025-09-19 13:30:41,554 - INFO - State changed to CLUSTERING_QUEUED: Clustering process has been queued.
+2025-09-19 13:30:41,556 - INFO - State changed to CLUSTERING: Face clustering is in progress... This may take several minutes.
+2025-09-19 13:30:41,562 - INFO - --- Starting Face Clustering Pipeline ---
+2025-09-19 13:31:02,610 - INFO - FaceProcessor is building the 'ArcFace' model...
+2025-09-19 13:31:02,625 - INFO - FaceProcessor is building the 'ArcFace' model...
+2025-09-19 13:31:02,629 - INFO - FaceProcessor is building the 'ArcFace' model...
+2025-09-19 13:31:02,630 - INFO - FaceProcessor is building the 'ArcFace' model...
+2025-09-19 13:31:02,652 - INFO - FaceProcessor is building the 'ArcFace' model...
+2025-09-19 13:31:09,847 - INFO - DeepFace model built successfully.
+2025-09-19 13:31:09,895 - INFO - DeepFace model built successfully.
+2025-09-19 13:31:09,896 - INFO - DeepFace model built successfully.
+2025-09-19 13:31:09,900 - INFO - DeepFace model built successfully.
+2025-09-19 13:31:09,903 - INFO - DeepFace model built successfully.
+2025-09-19 13:33:04,219 - INFO - Progress: Processed 1/5 images...
+2025-09-19 13:33:04,556 - INFO - Progress: Processed 2/5 images...
+2025-09-19 13:33:06,485 - INFO - Progress: Processed 3/5 images...
+2025-09-19 13:33:06,777 - INFO - Progress: Processed 4/5 images...
+2025-09-19 13:33:07,837 - INFO - Progress: Processed 5/5 images...
+2025-09-19 13:33:35,415 - INFO - Total faces detected: 35
+2025-09-19 13:33:35,522 - INFO - Clustering 35 faces...
+2025-09-19 13:33:35,903 - INFO - Clustering complete. Found 24 unique people.
+2025-09-19 13:33:36,144 - INFO - Full face data saved to 'face_data.csv'
+2025-09-19 13:33:36,145 - INFO - Saving representative faces for each cluster...
+2025-09-19 13:33:42,699 - INFO - --- Pipeline Complete ---
+2025-09-19 13:33:42,702 - INFO - State changed to READY_FOR_LABELING: Clustering complete. Please label the clusters.
+2025-09-19 13:34:13,379 - INFO - State changed to READY_FOR_SCORING: Labels uploaded. Ready to start scoring.
+2025-09-19 13:34:15,322 - INFO - State changed to SCORING_QUEUED: Scoring process has been queued.
+2025-09-19 13:34:15,324 - INFO - State changed to SCORING: Photo scoring is in progress... This may take a few minutes.
+2025-09-19 13:34:15,339 - INFO - --- Starting Stage 3: Photo Scoring Pipeline ---
+2025-09-19 13:34:15,384 - INFO - Starting parallel scoring with 12 worker processes.
+2025-09-19 13:34:18,972 - INFO - Loading dlib facial landmark model from: shape_predictor_68_face_landmarks.dat
+2025-09-19 13:34:18,973 - INFO - Loading dlib facial landmark model from: shape_predictor_68_face_landmarks.dat
+2025-09-19 13:34:18,973 - INFO - Loading dlib facial landmark model from: shape_predictor_68_face_landmarks.dat
+2025-09-19 13:34:18,994 - INFO - Loading dlib facial landmark model from: shape_predictor_68_face_landmarks.dat
+2025-09-19 13:34:19,005 - INFO - Loading dlib facial landmark model from: shape_predictor_68_face_landmarks.dat
+2025-09-19 13:34:22,834 - INFO - \u2705 Workflow complete. Scores saved to 'photo_scores.csv'
+2025-09-19 13:34:22,836 - INFO - State changed to COMPLETE: Scoring complete. Results are available.
+2025-09-19 13:34:24,350 - ERROR - An unexpected error occurred in function 'get_results': 'filename'
+Traceback (most recent call last):
+  File "C:\Users\tangw\anaconda3\Lib\site-packages\pandas\core\indexes\base.py", line 3805, in get_loc
+    return self._engine.get_loc(casted_key)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "index.pyx", line 167, in pandas._libs.index.IndexEngine.get_loc
+  File "index.pyx", line 196, in pandas._libs.index.IndexEngine.get_loc
+  File "pandas\\_libs\\hashtable_class_helper.pxi", line 7081, in pandas._libs.hashtable.PyObjectHashTable.get_item
+  File "pandas\\_libs\\hashtable_class_helper.pxi", line 7089, in pandas._libs.hashtable.PyObjectHashTable.get_item
+KeyError: 'filename'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\tangw\Ai_culling\utils\handler.py", line 15, in wrapper
+    return await func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tangw\Ai_culling\Backend_main.py", line 174, in get_results
+    df['image_url'] = '/images/' + df['filename']
+                                   ~~^^^^^^^^^^^^
+  File "C:\Users\tangw\anaconda3\Lib\site-packages\pandas\core\frame.py", line 4102, in __getitem__
+    indexer = self.columns.get_loc(key)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tangw\anaconda3\Lib\site-packages\pandas\core\indexes\base.py", line 3812, in get_loc
+    raise KeyError(key) from err
+KeyError: 'filename'
+2025-09-19 14:16:47,558 - INFO - State changed to READY_FOR_CLUSTERING: 3 images uploaded. Ready to start clustering.
+2025-09-19 14:16:51,357 - INFO - State changed to CLUSTERING_QUEUED: Clustering process has been queued.
+2025-09-19 14:16:51,359 - INFO - State changed to CLUSTERING: Face clustering is in progress... This may take several minutes.
+2025-09-19 14:16:51,362 - INFO - --- Starting Face Clustering Pipeline ---
+2025-09-19 14:17:01,892 - INFO - FaceProcessor is building the 'ArcFace' model...
+2025-09-19 14:17:02,172 - INFO - FaceProcessor is building the 'ArcFace' model...
+2025-09-19 14:17:02,256 - INFO - FaceProcessor is building the 'ArcFace' model...
+2025-09-19 14:17:05,414 - INFO - DeepFace model built successfully.
+2025-09-19 14:17:05,643 - INFO - DeepFace model built successfully.
+2025-09-19 14:17:05,642 - INFO - DeepFace model built successfully.
+2025-09-19 14:17:57,429 - INFO - Progress: Processed 1/3 images...
+2025-09-19 14:17:59,256 - INFO - Progress: Processed 2/3 images...
+2025-09-19 14:17:59,938 - INFO - Progress: Processed 3/3 images...
+2025-09-19 14:18:03,445 - INFO - Total faces detected: 21
+2025-09-19 14:18:03,528 - INFO - Clustering 21 faces...
+2025-09-19 14:18:03,811 - INFO - Clustering complete. Found 15 unique people.
+2025-09-19 14:18:03,878 - INFO - Full face data saved to 'face_data.csv'
+2025-09-19 14:18:03,879 - INFO - Saving representative faces for each cluster...
+2025-09-19 14:18:08,735 - INFO - --- Pipeline Complete ---
+2025-09-19 14:18:08,737 - INFO - State changed to READY_FOR_LABELING: Clustering complete. Please label the clusters.
+2025-09-19 14:18:31,821 - INFO - State changed to READY_FOR_SCORING: Labels uploaded. Ready to start scoring.
+2025-09-19 14:36:36,427 - INFO - State changed to READY_FOR_CLUSTERING: 3 images uploaded. Ready to start clustering.
+2025-09-19 14:36:38,098 - INFO - State changed to CLUSTERING_QUEUED: Clustering process has been queued.
+2025-09-19 14:36:38,099 - INFO - State changed to CLUSTERING: Face clustering is in progress... This may take several minutes.
+2025-09-19 14:36:38,102 - INFO - --- Starting Face Clustering Pipeline ---
+2025-09-19 14:36:48,773 - INFO - FaceProcessor is building the 'ArcFace' model...
+2025-09-19 14:36:48,773 - INFO - FaceProcessor is building the 'ArcFace' model...
+2025-09-19 14:36:48,776 - INFO - FaceProcessor is building the 'ArcFace' model...
+2025-09-19 14:36:52,053 - INFO - DeepFace model built successfully.
+2025-09-19 14:36:52,057 - INFO - DeepFace model built successfully.
+2025-09-19 14:36:52,058 - INFO - DeepFace model built successfully.
+2025-09-19 14:38:00,978 - INFO - Progress: Processed 1/3 images...
+2025-09-19 14:38:06,721 - INFO - Progress: Processed 2/3 images...
+2025-09-19 14:38:06,740 - INFO - Progress: Processed 3/3 images...
+2025-09-19 14:38:14,095 - INFO - Total faces detected: 21
+2025-09-19 14:38:14,564 - INFO - Clustering 21 faces...
+2025-09-19 14:38:15,393 - INFO - Clustering complete. Found 15 unique people.
+2025-09-19 14:38:16,140 - INFO - Full face data saved to 'face_data.csv'
+2025-09-19 14:38:16,159 - INFO - Saving representative faces for each cluster...
+2025-09-19 14:38:23,385 - INFO - --- Pipeline Complete ---
+2025-09-19 14:38:23,387 - INFO - State changed to READY_FOR_LABELING: Clustering complete. Please label the clusters.
+2025-09-19 14:38:52,142 - INFO - State changed to READY_FOR_SCORING: Labels uploaded. Ready to start scoring.
+2025-09-19 14:38:53,405 - INFO - State changed to SCORING_QUEUED: Scoring process has been queued.
+2025-09-19 14:38:53,408 - INFO - State changed to SCORING: Photo scoring is in progress... This may take a few minutes.
+2025-09-19 14:38:53,435 - INFO - --- Starting Stage 3: Photo Scoring Pipeline ---
+2025-09-19 14:38:53,486 - ERROR - labels_json is malformed. Must contain 'cluster' and 'category'.
+2025-09-19 14:38:53,486 - ERROR - Data loading failed. Aborting pipeline.
+2025-09-19 14:38:53,487 - INFO - State changed to COMPLETE: Scoring complete. Results are available.
+2025-09-19 14:38:56,460 - WARNING - Results CSV not found. Returning all images without scores.
+2025-09-19 15:25:11,969 - INFO - State changed to READY_FOR_CLUSTERING: 3 images uploaded. Ready to start clustering.
+2025-09-19 15:25:14,485 - INFO - State changed to CLUSTERING_QUEUED: Clustering process has been queued.
+2025-09-19 15:25:14,486 - INFO - State changed to CLUSTERING: Face clustering is in progress... This may take several minutes.
+2025-09-19 15:25:14,490 - INFO - --- Starting Face Clustering Pipeline ---
+2025-09-19 15:25:33,456 - INFO - FaceProcessor is building the 'ArcFace' model...
+2025-09-19 15:25:33,456 - INFO - FaceProcessor is building the 'ArcFace' model...
+2025-09-19 15:25:33,456 - INFO - FaceProcessor is building the 'ArcFace' model...
+2025-09-19 15:25:37,542 - INFO - DeepFace model built successfully.
+2025-09-19 15:25:37,547 - INFO - DeepFace model built successfully.
+2025-09-19 15:25:37,548 - INFO - DeepFace model built successfully.
+2025-09-19 15:26:59,739 - INFO - Progress: Processed 1/3 images...
+2025-09-19 15:27:00,276 - INFO - Progress: Processed 2/3 images...
+2025-09-19 15:27:00,890 - INFO - Progress: Processed 3/3 images...
+2025-09-19 15:27:05,629 - INFO - Total faces detected: 21
+2025-09-19 15:27:05,744 - INFO - Clustering 21 faces...
+2025-09-19 15:27:05,972 - INFO - Clustering complete. Found 15 unique people.
+2025-09-19 15:27:06,057 - INFO - Full face data saved to 'face_data.csv'
+2025-09-19 15:27:06,058 - INFO - Saving representative faces for each cluster...
+2025-09-19 15:27:10,498 - INFO - --- Pipeline Complete ---
+2025-09-19 15:27:10,499 - INFO - State changed to READY_FOR_LABELING: Clustering complete. Please label the clusters.
+2025-09-19 15:27:27,046 - INFO - State changed to READY_FOR_SCORING: Labels uploaded. Ready to start scoring.
+2025-09-19 15:27:31,420 - INFO - State changed to SCORING_QUEUED: Scoring process has been queued.
+2025-09-19 15:27:31,422 - INFO - State changed to SCORING: Photo scoring is in progress... This may take a few minutes.
+2025-09-19 15:27:31,433 - INFO - --- Starting Stage 3: Photo Scoring Pipeline ---
+2025-09-19 15:27:31,520 - ERROR - labels_json is malformed. Must contain 'cluster' and 'category'.
+2025-09-19 15:27:31,521 - ERROR - Data loading failed. Aborting pipeline.
+2025-09-19 15:27:31,521 - INFO - State changed to COMPLETE: Scoring complete. Results are available.
+2025-09-19 15:27:34,445 - WARNING - Results CSV not found. Returning all images without scores.
+2025-09-19 15:42:50,303 - INFO - State changed to READY_FOR_CLUSTERING: 3 images uploaded. Ready to start clustering.
+2025-09-19 15:42:52,424 - INFO - State changed to CLUSTERING_QUEUED: Clustering process has been queued.
+2025-09-19 15:42:52,425 - INFO - State changed to CLUSTERING: Face clustering is in progress... This may take several minutes.
+2025-09-19 15:42:52,428 - INFO - --- Starting Face Clustering Pipeline ---
+2025-09-19 15:43:03,961 - INFO - FaceProcessor is building the 'ArcFace' model...
+2025-09-19 15:43:04,003 - INFO - FaceProcessor is building the 'ArcFace' model...
+2025-09-19 15:43:04,005 - INFO - FaceProcessor is building the 'ArcFace' model...
+2025-09-19 15:43:07,230 - INFO - DeepFace model built successfully.
+2025-09-19 15:43:07,236 - INFO - DeepFace model built successfully.
+2025-09-19 15:43:07,257 - INFO - DeepFace model built successfully.
+2025-09-19 15:43:55,495 - INFO - Progress: Processed 1/3 images...
+2025-09-19 15:43:55,831 - INFO - Progress: Processed 2/3 images...
+2025-09-19 15:43:56,417 - INFO - Progress: Processed 3/3 images...
+2025-09-19 15:43:59,300 - INFO - Total faces detected: 21
+2025-09-19 15:43:59,366 - INFO - Clustering 21 faces...
+2025-09-19 15:43:59,646 - INFO - Clustering complete. Found 15 unique people.
+2025-09-19 15:43:59,720 - INFO - Full face data saved to 'face_data.csv'
+2025-09-19 15:43:59,720 - INFO - Saving representative faces for each cluster...
+2025-09-19 15:44:05,240 - INFO - --- Pipeline Complete ---
+2025-09-19 15:44:05,242 - INFO - State changed to READY_FOR_LABELING: Clustering complete. Please label the clusters.
+2025-09-19 15:44:27,061 - INFO - State changed to READY_FOR_SCORING: Labels uploaded. Ready to start scoring.
+2025-09-19 15:44:30,341 - INFO - State changed to SCORING_QUEUED: Scoring process has been queued.
+2025-09-19 15:44:30,343 - INFO - State changed to SCORING: Photo scoring is in progress... This may take a few minutes.
+2025-09-19 15:44:30,354 - INFO - --- Starting Stage 3: Photo Scoring Pipeline ---
+2025-09-19 15:44:30,403 - INFO - Starting parallel scoring with 12 worker processes.
+2025-09-19 15:44:33,217 - INFO - Loading dlib facial landmark model from: shape_predictor_68_face_landmarks.dat
+2025-09-19 15:44:33,217 - INFO - Loading dlib facial landmark model from: shape_predictor_68_face_landmarks.dat
+2025-09-19 15:44:33,221 - INFO - Loading dlib facial landmark model from: shape_predictor_68_face_landmarks.dat
+2025-09-19 15:44:35,910 - INFO - \u2705 Workflow complete. Scores saved to 'photo_scores.csv'
+2025-09-19 15:44:35,911 - INFO - State changed to COMPLETE: Scoring complete. Results are available.
+2025-09-19 15:55:39,598 - INFO - State changed to READY_FOR_CLUSTERING: 3 images uploaded. Ready to start clustering.
+2025-09-19 15:55:41,667 - INFO - State changed to CLUSTERING_QUEUED: Clustering process has been queued.
+2025-09-19 15:55:41,668 - INFO - State changed to CLUSTERING: Face clustering is in progress... This may take several minutes.
+2025-09-19 15:55:41,671 - INFO - --- Starting Face Clustering Pipeline ---
+2025-09-19 15:55:50,889 - INFO - FaceProcessor is building the 'ArcFace' model...
+2025-09-19 15:55:50,889 - INFO - FaceProcessor is building the 'ArcFace' model...
+2025-09-19 15:55:50,930 - INFO - FaceProcessor is building the 'ArcFace' model...
+2025-09-19 15:55:53,884 - INFO - DeepFace model built successfully.
+2025-09-19 15:55:53,885 - INFO - DeepFace model built successfully.
+2025-09-19 15:55:53,945 - INFO - DeepFace model built successfully.
+2025-09-19 15:56:43,812 - INFO - Progress: Processed 1/3 images...
+2025-09-19 15:56:44,472 - INFO - Progress: Processed 2/3 images...
+2025-09-19 15:56:45,194 - INFO - Progress: Processed 3/3 images...
+2025-09-19 15:56:48,655 - INFO - Total faces detected: 21
+2025-09-19 15:56:48,740 - INFO - Clustering 21 faces...
+2025-09-19 15:56:48,955 - INFO - Clustering complete. Found 15 unique people.
+2025-09-19 15:56:49,037 - INFO - Full face data saved to 'face_data.csv'
+2025-09-19 15:56:49,037 - INFO - Saving representative faces for each cluster...
+2025-09-19 15:56:53,660 - INFO - --- Pipeline Complete ---
+2025-09-19 15:56:53,660 - INFO - State changed to READY_FOR_LABELING: Clustering complete. Please label the clusters.
+2025-09-19 15:57:12,034 - INFO - State changed to READY_FOR_SCORING: Labels uploaded. Ready to start scoring.
+2025-09-19 15:57:13,695 - INFO - State changed to SCORING_QUEUED: Scoring process has been queued.
+2025-09-19 15:57:13,697 - INFO - State changed to SCORING: Photo scoring is in progress... This may take a few minutes.
+2025-09-19 15:57:13,702 - INFO - --- Starting Stage 3: Photo Scoring Pipeline ---
+2025-09-19 15:57:13,741 - INFO - Starting parallel scoring with 12 worker processes.
+2025-09-19 15:57:16,453 - INFO - Loading dlib facial landmark model from: shape_predictor_68_face_landmarks.dat
+2025-09-19 15:57:16,453 - INFO - Loading dlib facial landmark model from: shape_predictor_68_face_landmarks.dat
+2025-09-19 15:57:16,453 - INFO - Loading dlib facial landmark model from: shape_predictor_68_face_landmarks.dat
+2025-09-19 15:57:19,084 - INFO - \u2705 Workflow complete. Scores saved to 'photo_scores.csv'
+2025-09-19 15:57:19,085 - INFO - State changed to COMPLETE: Scoring complete. Results are available.
+2025-09-19 16:00:57,388 - INFO - State changed to READY_FOR_CLUSTERING: 3 images uploaded. Ready to start clustering.
+2025-09-19 16:00:59,809 - INFO - State changed to CLUSTERING_QUEUED: Clustering process has been queued.
+2025-09-19 16:00:59,809 - INFO - State changed to CLUSTERING: Face clustering is in progress... This may take several minutes.
+2025-09-19 16:00:59,813 - INFO - --- Starting Face Clustering Pipeline ---
+2025-09-19 16:01:09,877 - INFO - FaceProcessor is building the 'ArcFace' model...
+2025-09-19 16:01:09,887 - INFO - FaceProcessor is building the 'ArcFace' model...
+2025-09-19 16:01:09,920 - INFO - FaceProcessor is building the 'ArcFace' model...
+2025-09-19 16:01:12,531 - INFO - DeepFace model built successfully.
+2025-09-19 16:01:12,535 - INFO - DeepFace model built successfully.
+2025-09-19 16:01:12,548 - INFO - DeepFace model built successfully.
+2025-09-19 16:02:00,902 - INFO - Progress: Processed 1/3 images...
+2025-09-19 16:02:01,128 - INFO - Progress: Processed 2/3 images...
+2025-09-19 16:02:01,555 - INFO - Progress: Processed 3/3 images...
+2025-09-19 16:02:04,603 - INFO - Total faces detected: 21
+2025-09-19 16:02:04,690 - INFO - Clustering 21 faces...
+2025-09-19 16:02:04,864 - INFO - Clustering complete. Found 15 unique people.
+2025-09-19 16:02:04,930 - INFO - Full face data saved to 'face_data.csv'
+2025-09-19 16:02:04,930 - INFO - Saving representative faces for each cluster...
+2025-09-19 16:02:09,622 - INFO - --- Pipeline Complete ---
+2025-09-19 16:02:09,623 - INFO - State changed to READY_FOR_LABELING: Clustering complete. Please label the clusters.
+2025-09-19 16:02:25,415 - INFO - State changed to READY_FOR_SCORING: Labels uploaded. Ready to start scoring.
+2025-09-19 16:02:27,393 - INFO - State changed to SCORING_QUEUED: Scoring process has been queued.
+2025-09-19 16:02:27,394 - INFO - State changed to SCORING: Photo scoring is in progress... This may take a few minutes.
+2025-09-19 16:02:27,401 - INFO - --- Starting Stage 3: Photo Scoring Pipeline ---
+2025-09-19 16:02:27,443 - INFO - Starting parallel scoring with 12 worker processes.
+2025-09-19 16:02:30,123 - INFO - Loading dlib facial landmark model from: shape_predictor_68_face_landmarks.dat
+2025-09-19 16:02:33,135 - INFO - \u2705 Workflow complete. Scores saved to 'photo_scores.csv'
+2025-09-19 16:02:33,136 - INFO - State changed to COMPLETE: Scoring complete. Results are available.
+2025-09-19 16:11:30,148 - INFO - State changed to READY_FOR_CLUSTERING: 3 images uploaded. Ready to start clustering.
+2025-09-19 16:11:32,059 - INFO - State changed to CLUSTERING_QUEUED: Clustering process has been queued.
+2025-09-19 16:11:32,060 - INFO - State changed to CLUSTERING: Face clustering is in progress... This may take several minutes.
+2025-09-19 16:11:32,064 - INFO - --- Starting Face Clustering Pipeline ---
+2025-09-19 16:11:42,021 - INFO - FaceProcessor is building the 'ArcFace' model...
+2025-09-19 16:11:42,200 - INFO - FaceProcessor is building the 'ArcFace' model...
+2025-09-19 16:11:42,224 - INFO - FaceProcessor is building the 'ArcFace' model...
+2025-09-19 16:11:44,961 - INFO - DeepFace model built successfully.
+2025-09-19 16:11:45,353 - INFO - DeepFace model built successfully.
+2025-09-19 16:11:45,365 - INFO - DeepFace model built successfully.
+2025-09-19 16:12:39,818 - INFO - Progress: Processed 1/3 images...
+2025-09-19 16:12:40,267 - INFO - Progress: Processed 2/3 images...
+2025-09-19 16:12:40,645 - INFO - Progress: Processed 3/3 images...
+2025-09-19 16:12:43,958 - INFO - Total faces detected: 21
+2025-09-19 16:12:44,075 - INFO - Clustering 21 faces...
+2025-09-19 16:12:44,336 - INFO - Clustering complete. Found 15 unique people.
+2025-09-19 16:12:44,403 - INFO - Full face data saved to 'face_data.csv'
+2025-09-19 16:12:44,403 - INFO - Saving representative faces for each cluster...
+2025-09-19 16:12:49,385 - INFO - --- Pipeline Complete ---
+2025-09-19 16:12:49,386 - INFO - State changed to READY_FOR_LABELING: Clustering complete. Please label the clusters.
+2025-09-19 16:13:05,885 - INFO - State changed to READY_FOR_SCORING: Labels uploaded. Ready to start scoring.
+2025-09-19 16:13:08,900 - INFO - State changed to SCORING_QUEUED: Scoring process has been queued.
+2025-09-19 16:13:08,903 - INFO - State changed to SCORING: Photo scoring is in progress... This may take a few minutes.
+2025-09-19 16:13:08,912 - INFO - --- Starting Stage 3: Photo Scoring Pipeline ---
+2025-09-19 16:13:08,959 - INFO - Starting parallel scoring with 12 worker processes.
+2025-09-19 16:13:11,885 - INFO - Loading dlib facial landmark model from: shape_predictor_68_face_landmarks.dat
+2025-09-19 16:13:11,885 - INFO - Loading dlib facial landmark model from: shape_predictor_68_face_landmarks.dat
+2025-09-19 16:13:11,885 - INFO - Loading dlib facial landmark model from: shape_predictor_68_face_landmarks.dat
+2025-09-19 16:13:14,689 - INFO - \u2705 Workflow complete. Scores saved to 'photo_scores.csv'
+2025-09-19 16:13:14,690 - INFO - State changed to COMPLETE: Scoring complete. Results are available.
+2025-09-19 16:13:14,923 - ERROR - An unexpected error occurred in function 'get_gallery_data': join() argument must be str, bytes, or os.PathLike object, not 'Series'
+Traceback (most recent call last):
+  File "C:\Users\tangw\Ai_culling\utils\handler.py", line 15, in wrapper
+    return await func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tangw\Ai_culling\Backend_main.py", line 175, in get_gallery_data
+    images_df['image_url'] = os.path.join(image_folder, images_df['photo_path'])
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen ntpath>", line 149, in join
+  File "<frozen genericpath>", line 164, in _check_arg_types
+TypeError: join() argument must be str, bytes, or os.PathLike object, not 'Series'
+2025-09-19 16:17:46,256 - INFO - State changed to READY_FOR_CLUSTERING: 3 images uploaded. Ready to start clustering.
+2025-09-19 16:17:51,553 - INFO - State changed to CLUSTERING_QUEUED: Clustering process has been queued.
+2025-09-19 16:17:51,553 - INFO - State changed to CLUSTERING: Face clustering is in progress... This may take several minutes.
+2025-09-19 16:17:51,556 - INFO - --- Starting Face Clustering Pipeline ---
+2025-09-19 16:18:01,580 - INFO - FaceProcessor is building the 'ArcFace' model...
+2025-09-19 16:18:01,580 - INFO - FaceProcessor is building the 'ArcFace' model...
+2025-09-19 16:18:01,591 - INFO - FaceProcessor is building the 'ArcFace' model...
+2025-09-19 16:18:05,281 - INFO - DeepFace model built successfully.
+2025-09-19 16:18:05,294 - INFO - DeepFace model built successfully.
+2025-09-19 16:18:05,558 - INFO - DeepFace model built successfully.
+2025-09-19 16:19:01,760 - INFO - Progress: Processed 1/3 images...
+2025-09-19 16:19:02,220 - INFO - Progress: Processed 2/3 images...
+2025-09-19 16:19:02,627 - INFO - Progress: Processed 3/3 images...
+2025-09-19 16:19:07,016 - INFO - Total faces detected: 21
+2025-09-19 16:19:07,118 - INFO - Clustering 21 faces...
+2025-09-19 16:19:07,320 - INFO - Clustering complete. Found 15 unique people.
+2025-09-19 16:19:07,387 - INFO - Full face data saved to 'face_data.csv'
+2025-09-19 16:19:07,388 - INFO - Saving representative faces for each cluster...
+2025-09-19 16:19:12,165 - INFO - --- Pipeline Complete ---
+2025-09-19 16:19:12,165 - INFO - State changed to READY_FOR_LABELING: Clustering complete. Please label the clusters.
+2025-09-19 16:19:27,449 - INFO - State changed to READY_FOR_SCORING: Labels uploaded. Ready to start scoring.
+2025-09-19 16:19:29,460 - INFO - State changed to SCORING_QUEUED: Scoring process has been queued.
+2025-09-19 16:19:29,461 - INFO - State changed to SCORING: Photo scoring is in progress... This may take a few minutes.
+2025-09-19 16:19:29,469 - INFO - --- Starting Stage 3: Photo Scoring Pipeline ---
+2025-09-19 16:19:29,506 - INFO - Starting parallel scoring with 12 worker processes.
+2025-09-19 16:19:32,283 - INFO - Loading dlib facial landmark model from: shape_predictor_68_face_landmarks.dat
+2025-09-19 16:19:32,283 - INFO - Loading dlib facial landmark model from: shape_predictor_68_face_landmarks.dat
+2025-09-19 16:19:32,289 - INFO - Loading dlib facial landmark model from: shape_predictor_68_face_landmarks.dat
+2025-09-19 16:19:35,025 - INFO - \u2705 Workflow complete. Scores saved to 'photo_scores.csv'
+2025-09-19 16:19:35,026 - INFO - State changed to COMPLETE: Scoring complete. Results are available.
+2025-09-19 16:44:16,153 - INFO - State changed to READY_FOR_CLUSTERING: 3 images uploaded. Ready to start clustering.
+2025-09-19 16:44:17,462 - INFO - State changed to CLUSTERING_QUEUED: Clustering process has been queued.
+2025-09-19 16:44:17,464 - INFO - State changed to CLUSTERING: Face clustering is in progress... This may take several minutes.
+2025-09-19 16:44:17,466 - INFO - --- Starting Face Clustering Pipeline ---
+2025-09-19 16:44:28,385 - INFO - FaceProcessor is building the 'ArcFace' model...
+2025-09-19 16:44:28,433 - INFO - FaceProcessor is building the 'ArcFace' model...
+2025-09-19 16:44:28,462 - INFO - FaceProcessor is building the 'ArcFace' model...
+2025-09-19 16:44:32,116 - INFO - DeepFace model built successfully.
+2025-09-19 16:44:32,117 - INFO - DeepFace model built successfully.
+2025-09-19 16:44:32,410 - INFO - DeepFace model built successfully.
+2025-09-19 16:45:28,788 - INFO - Progress: Processed 1/3 images...
+2025-09-19 16:45:29,620 - INFO - Progress: Processed 2/3 images...
+2025-09-19 16:45:29,904 - INFO - Progress: Processed 3/3 images...
+2025-09-19 16:45:34,747 - INFO - Total faces detected: 21
+2025-09-19 16:45:34,850 - INFO - Clustering 21 faces...
+2025-09-19 16:45:35,051 - INFO - Clustering complete. Found 15 unique people.
+2025-09-19 16:45:35,129 - INFO - Full face data saved to 'face_data.csv'
+2025-09-19 16:45:35,130 - INFO - Saving representative faces for each cluster...
+2025-09-19 16:45:40,426 - INFO - --- Pipeline Complete ---
+2025-09-19 16:45:40,427 - INFO - State changed to READY_FOR_LABELING: Clustering complete. Please label the clusters.
+2025-09-19 16:45:55,896 - INFO - State changed to READY_FOR_SCORING: Labels uploaded. Ready to start scoring.
+2025-09-19 16:45:58,097 - INFO - State changed to SCORING_QUEUED: Scoring process has been queued.
+2025-09-19 16:45:58,099 - INFO - State changed to SCORING: Photo scoring is in progress... This may take a few minutes.
+2025-09-19 16:45:58,105 - INFO - --- Starting Stage 3: Photo Scoring Pipeline ---
+2025-09-19 16:45:58,151 - INFO - Starting parallel scoring with 12 worker processes.
+2025-09-19 16:46:00,888 - INFO - Loading dlib facial landmark model from: shape_predictor_68_face_landmarks.dat
+2025-09-19 16:46:00,888 - INFO - Loading dlib facial landmark model from: shape_predictor_68_face_landmarks.dat
+2025-09-19 16:46:00,888 - INFO - Loading dlib facial landmark model from: shape_predictor_68_face_landmarks.dat
+2025-09-19 16:46:03,710 - INFO - \u2705 Workflow complete. Scores saved to 'photo_scores.csv'
+2025-09-19 16:46:03,711 - INFO - State changed to COMPLETE: Scoring complete. Results are available.
+2025-09-19 16:53:41,143 - INFO - State changed to READY_FOR_CLUSTERING: 3 images uploaded. Ready to start clustering.
+2025-09-19 16:53:44,221 - INFO - State changed to CLUSTERING_QUEUED: Clustering process has been queued.
+2025-09-19 16:53:44,222 - INFO - State changed to CLUSTERING: Face clustering is in progress... This may take several minutes.
+2025-09-19 16:53:44,225 - INFO - --- Starting Face Clustering Pipeline ---
+2025-09-19 16:53:53,795 - INFO - FaceProcessor is building the 'ArcFace' model...
+2025-09-19 16:53:53,835 - INFO - FaceProcessor is building the 'ArcFace' model...
+2025-09-19 16:53:53,921 - INFO - FaceProcessor is building the 'ArcFace' model...
+2025-09-19 16:53:57,245 - INFO - DeepFace model built successfully.
+2025-09-19 16:53:57,672 - INFO - DeepFace model built successfully.
+2025-09-19 16:53:57,685 - INFO - DeepFace model built successfully.
+2025-09-19 16:55:03,502 - INFO - Progress: Processed 1/3 images...
+2025-09-19 16:55:03,867 - INFO - Progress: Processed 2/3 images...
+2025-09-19 16:55:04,058 - INFO - Progress: Processed 3/3 images...
+2025-09-19 16:55:08,673 - INFO - Total faces detected: 21
+2025-09-19 16:55:08,775 - INFO - Clustering 21 faces...
+2025-09-19 16:55:08,966 - INFO - Clustering complete. Found 15 unique people.
+2025-09-19 16:55:09,057 - INFO - Full face data saved to 'face_data.csv'
+2025-09-19 16:55:09,057 - INFO - Saving representative faces for each cluster...
+2025-09-19 16:55:13,839 - INFO - --- Pipeline Complete ---
+2025-09-19 16:55:13,840 - INFO - State changed to READY_FOR_LABELING: Clustering complete. Please label the clusters.
+2025-09-19 16:55:41,489 - INFO - State changed to READY_FOR_SCORING: Labels uploaded. Ready to start scoring.
+2025-09-19 16:55:43,398 - INFO - State changed to SCORING_QUEUED: Scoring process has been queued.
+2025-09-19 16:55:43,400 - INFO - State changed to SCORING: Photo scoring is in progress... This may take a few minutes.
+2025-09-19 16:55:43,406 - INFO - --- Starting Stage 3: Photo Scoring Pipeline ---
+2025-09-19 16:55:43,453 - INFO - Starting parallel scoring with 12 worker processes.
+2025-09-19 16:55:45,942 - INFO - Loading dlib facial landmark model from: shape_predictor_68_face_landmarks.dat
+2025-09-19 16:55:45,942 - INFO - Loading dlib facial landmark model from: shape_predictor_68_face_landmarks.dat
+2025-09-19 16:55:45,943 - INFO - Loading dlib facial landmark model from: shape_predictor_68_face_landmarks.dat
+2025-09-19 16:55:49,290 - INFO - \u2705 Workflow complete. Scores saved to 'photo_scores.csv'
+2025-09-19 16:55:49,291 - INFO - State changed to COMPLETE: Scoring complete. Results are available.
+2025-09-19 17:14:14,898 - INFO - State changed to READY_FOR_CLUSTERING: 1 images uploaded. Ready to start clustering.
+2025-09-19 17:14:17,148 - INFO - State changed to CLUSTERING_QUEUED: Clustering process has been queued.
+2025-09-19 17:14:17,149 - INFO - State changed to CLUSTERING: Face clustering is in progress... This may take several minutes.
+2025-09-19 17:14:17,152 - INFO - --- Starting Face Clustering Pipeline ---
+2025-09-19 17:14:25,014 - INFO - FaceProcessor is building the 'ArcFace' model...
+2025-09-19 17:14:27,177 - INFO - DeepFace model built successfully.
+2025-09-19 17:14:47,250 - INFO - Progress: Processed 1/1 images...
+2025-09-19 17:14:48,342 - INFO - Total faces detected: 10
+2025-09-19 17:14:48,348 - INFO - Clustering 10 faces...
+2025-09-19 17:14:48,382 - INFO - Clustering complete. Found 10 unique people.
+2025-09-19 17:14:48,398 - INFO - Full face data saved to 'face_data.csv'
+2025-09-19 17:14:48,399 - INFO - Saving representative faces for each cluster...
+2025-09-19 17:14:51,127 - INFO - --- Pipeline Complete ---
+2025-09-19 17:14:51,128 - INFO - State changed to READY_FOR_LABELING: Clustering complete. Please label the clusters.
+2025-09-19 17:15:10,167 - INFO - State changed to READY_FOR_SCORING: Labels uploaded. Ready to start scoring.
+2025-09-19 17:15:11,923 - INFO - State changed to SCORING_QUEUED: Scoring process has been queued.
+2025-09-19 17:15:11,927 - INFO - State changed to SCORING: Photo scoring is in progress... This may take a few minutes.
+2025-09-19 17:15:11,933 - INFO - --- Starting Stage 3: Photo Scoring Pipeline ---
+2025-09-19 17:15:11,952 - INFO - Starting parallel scoring with 12 worker processes.
+2025-09-19 17:15:13,671 - INFO - Loading dlib facial landmark model from: shape_predictor_68_face_landmarks.dat
+2025-09-19 17:15:15,114 - INFO - \u2705 Workflow complete. Scores saved to 'photo_scores.csv'
+2025-09-19 17:15:15,115 - INFO - State changed to COMPLETE: Scoring complete. Results are available.
+2025-09-19 17:17:23,078 - INFO - State changed to READY_FOR_CLUSTERING: 1 images uploaded. Ready to start clustering.
+2025-09-19 17:17:24,357 - INFO - State changed to CLUSTERING_QUEUED: Clustering process has been queued.
+2025-09-19 17:17:24,358 - INFO - State changed to CLUSTERING: Face clustering is in progress... This may take several minutes.
+2025-09-19 17:17:24,365 - INFO - --- Starting Face Clustering Pipeline ---
+2025-09-19 17:17:31,909 - INFO - FaceProcessor is building the 'ArcFace' model...
+2025-09-19 17:17:33,793 - INFO - DeepFace model built successfully.
+2025-09-19 17:17:53,688 - INFO - Progress: Processed 1/1 images...
+2025-09-19 17:17:54,830 - INFO - Total faces detected: 10
+2025-09-19 17:17:54,842 - INFO - Clustering 10 faces...
+2025-09-19 17:17:54,886 - INFO - Clustering complete. Found 10 unique people.
+2025-09-19 17:17:54,905 - INFO - Full face data saved to 'face_data.csv'
+2025-09-19 17:17:54,905 - INFO - Saving representative faces for each cluster...
+2025-09-19 17:17:57,211 - INFO - --- Pipeline Complete ---
+2025-09-19 17:17:57,214 - INFO - State changed to READY_FOR_LABELING: Clustering complete. Please label the clusters.
+2025-09-19 17:18:10,243 - INFO - State changed to READY_FOR_SCORING: Labels uploaded. Ready to start scoring.
+2025-09-19 17:18:12,764 - INFO - State changed to SCORING_QUEUED: Scoring process has been queued.
+2025-09-19 17:18:12,767 - INFO - State changed to SCORING: Photo scoring is in progress... This may take a few minutes.
+2025-09-19 17:18:12,772 - INFO - --- Starting Stage 3: Photo Scoring Pipeline ---
+2025-09-19 17:18:12,802 - INFO - Starting parallel scoring with 12 worker processes.
+2025-09-19 17:18:14,414 - INFO - Loading dlib facial landmark model from: shape_predictor_68_face_landmarks.dat
+2025-09-19 17:18:15,999 - INFO - \u2705 Workflow complete. Scores saved to 'photo_scores.csv'
+2025-09-19 17:18:16,000 - INFO - State changed to COMPLETE: Scoring complete. Results are available.
+2025-09-19 17:22:43,047 - INFO - State changed to READY_FOR_CLUSTERING: 1 images uploaded. Ready to start clustering.
+2025-09-19 17:22:44,855 - INFO - State changed to CLUSTERING_QUEUED: Clustering process has been queued.
+2025-09-19 17:22:44,857 - INFO - State changed to CLUSTERING: Face clustering is in progress... This may take several minutes.
+2025-09-19 17:22:44,861 - INFO - --- Starting Face Clustering Pipeline ---
+2025-09-19 17:22:53,195 - INFO - FaceProcessor is building the 'ArcFace' model...
+2025-09-19 17:22:55,107 - INFO - DeepFace model built successfully.
+2025-09-19 17:23:14,725 - INFO - Progress: Processed 1/1 images...
+2025-09-19 17:23:15,756 - INFO - Total faces detected: 5
+2025-09-19 17:23:15,761 - INFO - Clustering 5 faces...
+2025-09-19 17:23:15,793 - INFO - Clustering complete. Found 5 unique people.
+2025-09-19 17:23:15,803 - INFO - Full face data saved to 'face_data.csv'
+2025-09-19 17:23:15,804 - INFO - Saving representative faces for each cluster...
+2025-09-19 17:23:17,641 - INFO - --- Pipeline Complete ---
+2025-09-19 17:23:17,643 - INFO - State changed to READY_FOR_LABELING: Clustering complete. Please label the clusters.
+2025-09-19 17:23:29,685 - INFO - State changed to READY_FOR_SCORING: Labels uploaded. Ready to start scoring.
+2025-09-19 17:23:31,149 - INFO - State changed to SCORING_QUEUED: Scoring process has been queued.
+2025-09-19 17:23:31,152 - INFO - State changed to SCORING: Photo scoring is in progress... This may take a few minutes.
+2025-09-19 17:23:31,164 - INFO - --- Starting Stage 3: Photo Scoring Pipeline ---
+2025-09-19 17:23:31,187 - INFO - Starting parallel scoring with 12 worker processes.
+2025-09-19 17:23:32,806 - INFO - Loading dlib facial landmark model from: shape_predictor_68_face_landmarks.dat
+2025-09-19 17:23:34,671 - INFO - \u2705 Workflow complete. Scores saved to 'photo_scores.csv'
+2025-09-19 17:23:34,672 - INFO - State changed to COMPLETE: Scoring complete. Results are available.
+2025-09-19 17:26:11,416 - INFO - State changed to READY_FOR_CLUSTERING: 1 images uploaded. Ready to start clustering.
+2025-09-19 17:26:12,487 - INFO - State changed to CLUSTERING_QUEUED: Clustering process has been queued.
+2025-09-19 17:26:12,488 - INFO - State changed to CLUSTERING: Face clustering is in progress... This may take several minutes.
+2025-09-19 17:26:12,491 - INFO - --- Starting Face Clustering Pipeline ---
+2025-09-19 17:26:20,519 - INFO - FaceProcessor is building the 'ArcFace' model...
+2025-09-19 17:26:22,719 - INFO - DeepFace model built successfully.
+2025-09-19 17:26:41,902 - INFO - Progress: Processed 1/1 images...
+2025-09-19 17:26:42,931 - INFO - Total faces detected: 5
+2025-09-19 17:26:42,937 - INFO - Clustering 5 faces...
+2025-09-19 17:26:42,968 - INFO - Clustering complete. Found 5 unique people.
+2025-09-19 17:26:42,978 - INFO - Full face data saved to 'face_data.csv'
+2025-09-19 17:26:42,978 - INFO - Saving representative faces for each cluster...
+2025-09-19 17:26:44,610 - INFO - --- Pipeline Complete ---
+2025-09-19 17:26:44,611 - INFO - State changed to READY_FOR_LABELING: Clustering complete. Please label the clusters.
+2025-09-19 17:26:56,351 - INFO - State changed to READY_FOR_SCORING: Labels uploaded. Ready to start scoring.
+2025-09-19 17:26:57,945 - INFO - State changed to SCORING_QUEUED: Scoring process has been queued.
+2025-09-19 17:26:57,947 - INFO - State changed to SCORING: Photo scoring is in progress... This may take a few minutes.
+2025-09-19 17:26:57,950 - INFO - --- Starting Stage 3: Photo Scoring Pipeline ---
+2025-09-19 17:26:57,968 - INFO - Starting parallel scoring with 12 worker processes.
+2025-09-19 17:26:59,626 - INFO - Loading dlib facial landmark model from: shape_predictor_68_face_landmarks.dat
+2025-09-19 17:27:01,596 - INFO - \u2705 Workflow complete. Scores saved to 'photo_scores.csv'
+2025-09-19 17:27:01,596 - INFO - State changed to COMPLETE: Scoring complete. Results are available.
+2025-09-19 17:37:28,188 - INFO - State changed to READY_FOR_CLUSTERING: 1 images uploaded. Ready to start clustering.
+2025-09-19 17:37:30,680 - INFO - State changed to CLUSTERING_QUEUED: Clustering process has been queued.
+2025-09-19 17:37:30,681 - INFO - State changed to CLUSTERING: Face clustering is in progress... This may take several minutes.
+2025-09-19 17:37:30,684 - INFO - --- Starting Face Clustering Pipeline ---
+2025-09-19 17:37:38,205 - INFO - FaceProcessor is building the 'ArcFace' model...
+2025-09-19 17:37:40,372 - INFO - DeepFace model built successfully.
+2025-09-19 17:37:59,716 - INFO - Progress: Processed 1/1 images...
+2025-09-19 17:38:01,060 - INFO - Total faces detected: 5
+2025-09-19 17:38:01,076 - INFO - Clustering 5 faces...
+2025-09-19 17:38:01,128 - INFO - Clustering complete. Found 5 unique people.
+2025-09-19 17:38:01,146 - INFO - Full face data saved to 'face_data.csv'
+2025-09-19 17:38:01,146 - INFO - Saving representative faces for each cluster...
+2025-09-19 17:38:02,753 - INFO - --- Pipeline Complete ---
+2025-09-19 17:38:02,754 - INFO - State changed to READY_FOR_LABELING: Clustering complete. Please label the clusters.
+2025-09-19 17:38:15,454 - INFO - State changed to READY_FOR_SCORING: Labels uploaded. Ready to start scoring.
+2025-09-19 17:38:16,945 - INFO - State changed to SCORING_QUEUED: Scoring process has been queued.
+2025-09-19 17:38:16,951 - INFO - State changed to SCORING: Photo scoring is in progress... This may take a few minutes.
+2025-09-19 17:38:16,960 - INFO - --- Starting Stage 3: Photo Scoring Pipeline ---
+2025-09-19 17:38:16,981 - INFO - Starting parallel scoring with 12 worker processes.
+2025-09-19 17:38:18,611 - INFO - Loading dlib facial landmark model from: shape_predictor_68_face_landmarks.dat
+2025-09-19 17:38:20,720 - INFO - \u2705 Workflow complete. Scores saved to 'photo_scores.csv'
+2025-09-19 17:38:20,721 - INFO - State changed to COMPLETE: Scoring complete. Results are available.
+2025-09-19 17:39:37,993 - INFO - State changed to READY_FOR_CLUSTERING: 5 images uploaded. Ready to start clustering.
+2025-09-19 17:39:40,630 - INFO - State changed to CLUSTERING_QUEUED: Clustering process has been queued.
+2025-09-19 17:39:40,631 - INFO - State changed to CLUSTERING: Face clustering is in progress... This may take several minutes.
+2025-09-19 17:39:40,634 - INFO - --- Starting Face Clustering Pipeline ---
+2025-09-19 17:39:52,411 - INFO - FaceProcessor is building the 'ArcFace' model...
+2025-09-19 17:39:52,412 - INFO - FaceProcessor is building the 'ArcFace' model...
+2025-09-19 17:39:52,457 - INFO - FaceProcessor is building the 'ArcFace' model...
+2025-09-19 17:39:52,481 - INFO - FaceProcessor is building the 'ArcFace' model...
+2025-09-19 17:39:52,493 - INFO - FaceProcessor is building the 'ArcFace' model...
+2025-09-19 17:39:58,130 - INFO - DeepFace model built successfully.
+2025-09-19 17:39:58,790 - INFO - DeepFace model built successfully.
+2025-09-19 17:39:58,818 - INFO - DeepFace model built successfully.
+2025-09-19 17:39:58,840 - INFO - DeepFace model built successfully.
+2025-09-19 17:41:29,414 - INFO - Progress: Processed 1/5 images...
+2025-09-19 17:41:29,993 - INFO - Progress: Processed 2/5 images...
+2025-09-19 17:41:30,207 - INFO - Progress: Processed 3/5 images...
+2025-09-19 17:41:32,145 - INFO - Progress: Processed 4/5 images...
+2025-09-19 17:41:32,675 - INFO - Progress: Processed 5/5 images...
+2025-09-19 17:42:22,134 - INFO - Total faces detected: 35
+2025-09-19 17:42:22,322 - INFO - Clustering 35 faces...
+2025-09-19 17:42:22,541 - INFO - Clustering complete. Found 24 unique people.
+2025-09-19 17:42:22,625 - INFO - Full face data saved to 'face_data.csv'
+2025-09-19 17:42:22,626 - INFO - Saving representative faces for each cluster...
+2025-09-19 17:42:29,475 - INFO - --- Pipeline Complete ---
+2025-09-19 17:42:29,476 - INFO - State changed to READY_FOR_LABELING: Clustering complete. Please label the clusters.
+2025-09-19 17:42:56,168 - INFO - State changed to READY_FOR_SCORING: Labels uploaded. Ready to start scoring.
+2025-09-19 17:42:58,107 - INFO - State changed to SCORING_QUEUED: Scoring process has been queued.
+2025-09-19 17:42:58,109 - INFO - State changed to SCORING: Photo scoring is in progress... This may take a few minutes.
+2025-09-19 17:42:58,117 - INFO - --- Starting Stage 3: Photo Scoring Pipeline ---
+2025-09-19 17:42:58,169 - INFO - Starting parallel scoring with 12 worker processes.
+2025-09-19 17:43:00,693 - INFO - Loading dlib facial landmark model from: shape_predictor_68_face_landmarks.dat
+2025-09-19 17:43:00,693 - INFO - Loading dlib facial landmark model from: shape_predictor_68_face_landmarks.dat
+2025-09-19 17:43:00,693 - INFO - Loading dlib facial landmark model from: shape_predictor_68_face_landmarks.dat
+2025-09-19 17:43:00,693 - INFO - Loading dlib facial landmark model from: shape_predictor_68_face_landmarks.dat
+2025-09-19 17:43:00,701 - INFO - Loading dlib facial landmark model from: shape_predictor_68_face_landmarks.dat
+2025-09-19 17:43:04,464 - INFO - \u2705 Workflow complete. Scores saved to 'photo_scores.csv'
+2025-09-19 17:43:04,466 - INFO - State changed to COMPLETE: Scoring complete. Results are available.
