@@ -202,3 +202,29 @@ async def get_gallery_data(filters: Optional[str] = Query(None)):
 
     gallery_df['image_url'] = '/images/' + gallery_df['photo_path']
     return JSONResponse(content=json.loads(gallery_df.to_json(orient='records')))
+
+@app.post("/api/reset", tags=["Workflow"])
+@handle_exception
+async def reset_workflow():
+    """
+    Resets the application to its initial state, clearing all generated data.
+    """
+    logger.info("Received request to reset the entire workflow.")
+    
+    # 1. Clear generated directories
+    for folder_key in ['image_folder', 'cluster_folder']:
+        folder_path = config['io'][folder_key]
+        if os.path.exists(folder_path):
+            shutil.rmtree(folder_path)
+        os.makedirs(folder_path, exist_ok=True)
+        
+    # 2. Delete generated files
+    for file_key in ['output_csv', 'labels_json']:
+        file_path = config['scoring'][file_key]
+        if os.path.exists(file_path):
+            os.remove(file_path)
+            
+    # 3. Reset the application state
+    set_app_state("IDLE", "System reset. Ready for new upload.")
+    
+    return {"message": "Workflow has been reset successfully."}

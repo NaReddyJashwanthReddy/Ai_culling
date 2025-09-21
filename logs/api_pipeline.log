@@ -1172,3 +1172,47 @@ TypeError: join() argument must be str, bytes, or os.PathLike object, not 'Serie
 2025-09-20 18:05:11,556 - INFO - Loading dlib facial landmark model from: shape_predictor_68_face_landmarks.dat
 2025-09-20 18:05:15,391 - INFO - \u2705 Workflow complete. Scores saved to 'photo_scores.csv'
 2025-09-20 18:05:15,393 - INFO - State changed to COMPLETE: Scoring complete. Results are available.
+2025-09-21 11:33:24,445 - INFO - State changed to READY_FOR_CLUSTERING: 5 images uploaded. Ready to start clustering.
+2025-09-21 11:34:04,305 - INFO - State changed to CLUSTERING_QUEUED: Clustering process has been queued.
+2025-09-21 11:34:04,307 - INFO - State changed to CLUSTERING: Face clustering is in progress... This may take several minutes.
+2025-09-21 11:34:04,312 - INFO - --- Starting Face Clustering Pipeline ---
+2025-09-21 11:34:18,640 - INFO - FaceProcessor is building the 'ArcFace' model...
+2025-09-21 11:34:18,641 - INFO - FaceProcessor is building the 'ArcFace' model...
+2025-09-21 11:34:18,641 - INFO - FaceProcessor is building the 'ArcFace' model...
+2025-09-21 11:34:18,676 - INFO - FaceProcessor is building the 'ArcFace' model...
+2025-09-21 11:34:18,717 - INFO - FaceProcessor is building the 'ArcFace' model...
+2025-09-21 11:34:26,970 - INFO - DeepFace model built successfully.
+2025-09-21 11:34:26,982 - INFO - DeepFace model built successfully.
+2025-09-21 11:34:26,980 - INFO - DeepFace model built successfully.
+2025-09-21 11:34:27,080 - INFO - DeepFace model built successfully.
+2025-09-21 11:37:14,293 - INFO - Progress: Processed 1/5 images...
+2025-09-21 11:37:14,330 - INFO - Progress: Processed 2/5 images...
+2025-09-21 11:37:15,040 - INFO - Progress: Processed 3/5 images...
+2025-09-21 11:37:15,216 - INFO - Progress: Processed 4/5 images...
+2025-09-21 11:37:23,184 - INFO - Progress: Processed 5/5 images...
+2025-09-21 11:37:38,622 - INFO - Total faces detected: 35
+2025-09-21 11:37:38,741 - INFO - Clustering 35 faces...
+2025-09-21 11:37:39,214 - INFO - Clustering complete. Found 24 unique people.
+2025-09-21 11:37:39,364 - INFO - Full face data saved to 'face_data.csv'
+2025-09-21 11:37:39,365 - INFO - Saving representative faces for each cluster...
+2025-09-21 11:37:45,792 - INFO - --- Pipeline Complete ---
+2025-09-21 11:37:45,794 - INFO - State changed to READY_FOR_LABELING: Clustering complete. Please label the clusters.
+2025-09-21 11:38:04,877 - INFO - State changed to READY_FOR_SCORING: Labels uploaded. Ready to start scoring.
+2025-09-21 11:38:06,814 - INFO - State changed to SCORING_QUEUED: Scoring process has been queued.
+2025-09-21 11:38:06,816 - INFO - State changed to SCORING: Photo scoring is in progress... This may take a few minutes.
+2025-09-21 11:38:06,825 - INFO - --- Starting Stage 3: Photo Scoring Pipeline ---
+2025-09-21 11:38:06,875 - INFO - Starting parallel scoring with 12 worker processes.
+2025-09-21 11:38:10,264 - INFO - Loading dlib facial landmark model from: shape_predictor_68_face_landmarks.dat
+2025-09-21 11:38:10,264 - INFO - Loading dlib facial landmark model from: shape_predictor_68_face_landmarks.dat
+2025-09-21 11:38:10,264 - INFO - Loading dlib facial landmark model from: shape_predictor_68_face_landmarks.dat
+2025-09-21 11:38:10,267 - INFO - Loading dlib facial landmark model from: shape_predictor_68_face_landmarks.dat
+2025-09-21 11:38:10,267 - INFO - Loading dlib facial landmark model from: shape_predictor_68_face_landmarks.dat
+2025-09-21 11:38:13,984 - INFO - \u2705 Workflow complete. Scores saved to 'photo_scores.csv'
+2025-09-21 11:38:13,985 - INFO - State changed to COMPLETE: Scoring complete. Results are available.
+2025-09-21 11:38:23,797 - INFO - Received request to reset the entire workflow.
+2025-09-21 11:38:23,827 - INFO - State changed to IDLE: System reset. Ready for new upload.
+2025-09-21 11:38:37,910 - INFO - State changed to READY_FOR_CLUSTERING: 3 images uploaded. Ready to start clustering.
+2025-09-21 11:38:43,592 - INFO - Received request to reset the entire workflow.
+2025-09-21 11:38:43,614 - INFO - State changed to IDLE: System reset. Ready for new upload.
+2025-09-21 11:40:02,395 - INFO - Received request to reset the entire workflow.
+2025-09-21 11:40:02,397 - INFO - State changed to IDLE: System reset. Ready for new upload.

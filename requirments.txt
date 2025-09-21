@@ -7,5 +7,5 @@ deepface
 scikit-learn
 tf-keras
 fastapi[all]
-yaml
+pyyaml
 scipy

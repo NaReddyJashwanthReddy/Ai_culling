@@ -71,13 +71,21 @@
                 </section>
             </div>;
 
+            <div>
+                <div class="text-center mb-8 bg-white p-6 rounded-xl shadow-md">
+                    <h2 class="text-3xl font-bold">Curation Complete!</h2>
+                    <p class="text-slate-600 mt-2 mb-4">Use this if you want to start a new analysis.</p>
+                    <button id="reset-workflow-button" class="bg-red-500 text-white font-bold py-2 px-6 rounded-lg hover:bg-red-600 transition-colors">
+                        Start New Analysis
+                    </button>
+                </div>
+            </div>
+
         </main>
     </div>
 
     <script>
-    // ###############################################################
-    // ## THE FIX IS HERE: Wrap all code in DOMContentLoaded      ##
-    // ###############################################################
+
     document.addEventListener('DOMContentLoaded', () => {
 
         // --- DOM Element References ---
@@ -252,6 +260,11 @@
                 renderFilters();
                 renderGallery();
                 applyFilters();
+                document.getElementById('reset-workflow-button')?.addEventListener('click', (e) => {
+                    if (confirm("Are you sure you want to start a new analysis? All current photos and results will be permanently deleted.")) {
+                        handleApiAction('/api/reset', { method: 'POST' }, e.target);
+                    }
+                });
             } catch (error) { console.error("Failed to populate gallery:", error); }
         };
 
