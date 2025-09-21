@@ -219,7 +219,7 @@ async def reset_workflow():
         os.makedirs(folder_path, exist_ok=True)
         
     # 2. Delete generated files
-    for file_key in ['output_csv', 'labels_json']:
+    for file_key in ['output_csv', 'labels_json','face_data_csv']:
         file_path = config['scoring'][file_key]
         if os.path.exists(file_path):
             os.remove(file_path)
