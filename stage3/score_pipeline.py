@@ -30,6 +30,8 @@ def score_photo_worker(photo_group, config):
 
     output_string=''
     if scores:
+        print(scores)
+        print(scores.values())
         for metrix in scores.values():
             for val in metrix.values():
                 if val == 0:
@@ -137,3 +139,4 @@ class WorkflowOrchestrator:
         # Idempotency Note: For restartable pipelines, you could add logic here
         # to check if the output file exists and merge/overwrite accordingly.
         scores_df.to_csv(self.scorer_config['output_csv'], index=False)
+
