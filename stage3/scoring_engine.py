@@ -50,7 +50,7 @@ class PhotoScorer:
         
         #return self._aggregate_scores(category_metrics)
         score, length = self._aggregate_scores(category_metrics_bool)
-        print()
+        print("222:",score)
         return score, length
 
     @handle_exception_sync
@@ -135,7 +135,7 @@ class PhotoScorer:
                 "smile":smile,
                 "focus":focus
             }
-            
+        print("111 :",scores)
         return scores, category_length
             
 
@@ -167,4 +167,5 @@ class PhotoScorer:
         p_jaw_right = (landmarks.part(14).x, landmarks.part(14).y)
         mouth_width = hypot(p_left[0] - p_right[0], p_left[1] - p_right[1])
         jaw_width = hypot(p_jaw_left[0] - p_jaw_right[0], p_jaw_left[1] - p_jaw_right[1])
+
         return 0.0 if jaw_width == 0 else mouth_width / jaw_width
