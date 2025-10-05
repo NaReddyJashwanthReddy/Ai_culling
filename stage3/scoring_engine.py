@@ -37,8 +37,8 @@ class PhotoScorer:
         except cv2.error as e:
             return {"final_score": 0, "reason": f"OpenCV error: {e}"}
 
-        if not (self._is_sharp(gray_image) > self.config['thresholds']['global_sharpness']):
-            return {"final_score": 0, "reason": "Image is too blurry."}
+        '''if not (self._is_sharp(gray_image) > self.config['thresholds']['global_sharpness']):
+            return {"final_score": 0, "reason": "Image is too blurry."}'''
 
         category_metrics,category_metrics_bool = self._calculate_all_person_metrics(gray_image, people_in_photo_df)
         
@@ -50,7 +50,6 @@ class PhotoScorer:
         
         #return self._aggregate_scores(category_metrics)
         score, length = self._aggregate_scores(category_metrics_bool)
-        print("222:",score)
         return score, length
 
     @handle_exception_sync
@@ -135,7 +134,6 @@ class PhotoScorer:
                 "smile":smile,
                 "focus":focus
             }
-        print("111 :",scores)
         return scores, category_length
             
 
@@ -169,3 +167,4 @@ class PhotoScorer:
         jaw_width = hypot(p_jaw_left[0] - p_jaw_right[0], p_jaw_left[1] - p_jaw_right[1])
 
         return 0.0 if jaw_width == 0 else mouth_width / jaw_width
+
