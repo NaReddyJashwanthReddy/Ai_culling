@@ -25,9 +25,9 @@ def score_photo_worker(photo_group, config):
     scorer = PhotoScorer(config)
     image_folder = config['io']['image_folder']
     image_path = os.path.join(image_folder, filename)
-    
+
     scores, length = scorer.score_photo(image_path, people_df)
-    
+
     output_string=''
     if scores:
         for metrix in scores.values():
@@ -81,6 +81,7 @@ class WorkflowOrchestrator:
 
         self._save_results(all_scores)
         logger.info(f"✅ Workflow complete. Scores saved to '{self.scorer_config['output_csv']}'")
+    
 
     def _load_and_prepare_data(self):
         """
@@ -133,7 +134,6 @@ class WorkflowOrchestrator:
     def _save_results(self, all_scores):
         """Creates a clean, flat DataFrame and saves it to a CSV file."""
         scores_df = pd.DataFrame(all_scores)
-        
         # Idempotency Note: For restartable pipelines, you could add logic here
         # to check if the output file exists and merge/overwrite accordingly.
         scores_df.to_csv(self.scorer_config['output_csv'], index=False)

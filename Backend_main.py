@@ -10,6 +10,7 @@ from fastapi.staticfiles import StaticFiles
 # Import the core logic and utilities from our other modules
 from stage2.main_pipeline import FaceClusteringPipeline
 from stage3.score_pipeline import WorkflowOrchestrator
+from stage3.scoring_engine import PhotoScorer
 from utils.logger import logger, load_config
 from utils.handler import handle_exception
 
@@ -73,6 +74,10 @@ config = load_config()
 # Create directories if they don't exist to prevent errors on first run
 os.makedirs(config['io']['cluster_folder'], exist_ok=True)
 os.makedirs(config['io']['image_folder'], exist_ok=True)
+
+idc={}
+with open(config['scoring']['categorical_matrices_output'], 'w') as f:
+    json.dump(idc, f) 
 
 # Mount static directories to serve images directly to the frontend
 app.mount("/clusters", StaticFiles(directory=config['io']['cluster_folder']), name="clusters")
@@ -150,11 +155,19 @@ async def trigger_scoring(background_tasks: BackgroundTasks):
     """Triggers the Stage 3 photo scoring pipeline as a background task."""
     if APP_STATE["status"] != "READY_FOR_SCORING":
         raise HTTPException(status_code=409, detail=f"Cannot start scoring. System status is '{APP_STATE['status']}'. Please upload labels first.")
-        
+
     background_tasks.add_task(run_scoring_task)
     set_app_state("SCORING_QUEUED", "Scoring process has been queued.")
     return {"message": "Accepted. Photo scoring started in the background."}
 
+@app.get("/api/categorical_matrices", tags=["Workflow Results"])
+@handle_exception
+async def get_categorical_matrices():
+    """Fetches the current categorical matrices settings."""
+    config = load_config()
+    with open(config['scoring']['categorical_matrices_output'], 'r') as f:
+        idc = json.load(f)
+    return JSONResponse(content=idc)
 @app.get("/api/gallery-data", tags=["Workflow Results"])
 @handle_exception
 async def get_gallery_data(filters: Optional[str] = Query(None)):
@@ -162,6 +175,7 @@ async def get_gallery_data(filters: Optional[str] = Query(None)):
     Loads all original images, merges with scoring data, and applies
     server-side filters before returning results for the interactive gallery.
     """
+
     if APP_STATE["status"] != "COMPLETE":
         raise HTTPException(status_code=404, detail=f"Results not yet available. Current status: {APP_STATE['status']}")
 
@@ -175,6 +189,7 @@ async def get_gallery_data(filters: Optional[str] = Query(None)):
         raise HTTPException(status_code=404, detail=f"Image folder '{image_folder}' not found.")
 
     scores_df = pd.DataFrame() # Create an empty DataFrame by default
+
     if os.path.exists(results_csv):
         try:
             scores_df = pd.read_csv(results_csv)
@@ -188,8 +203,11 @@ async def get_gallery_data(filters: Optional[str] = Query(None)):
     # Fill NaN values for images that were not scored or if the file was empty
     gallery_df['results'].fillna('ccccccccc', inplace=True)
     
+    #update the results.
+
+    
     # Server-side filtering logic
-    if filters and filters.strip():
+    '''if filters and filters.strip():
         try:
             filter_indices = [int(i) for i in filters.split(',')]
             mask = pd.Series([True] * len(gallery_df))
@@ -198,10 +216,67 @@ async def get_gallery_data(filters: Optional[str] = Query(None)):
                     mask = mask & (gallery_df['results'].str[index] == 'b')
             gallery_df = gallery_df[mask]
         except (ValueError, IndexError):
-            raise HTTPException(status_code=400, detail="Invalid filter format.")
+            raise HTTPException(status_code=400, detail="Invalid filter format.")'''
 
     gallery_df['image_url'] = '/images/' + gallery_df['photo_path']
+    gallery_df.to_csv(results_csv, index=False)
     return JSONResponse(content=json.loads(gallery_df.to_json(orient='records')))
+
+@app.post("/api/update-thresholds", tags=["Workflow"])
+@handle_exception
+async def update_categorical_matrices(thresholds: Optional[str] = Query(None)):
+    """Updates the categorical matrices with new threshold values."""
+    config = load_config()
+    with open(config['scoring']['categorical_matrices_output'], 'r') as f:
+        idc = json.load(f)
+
+    if APP_STATE["status"] != "COMPLETE":
+        raise HTTPException(status_code=404, detail=f"Results not yet available. Current status: {APP_STATE['status']}")
+
+    image_folder = config['io']['image_folder']
+    results_csv = config['scoring']['output_csv']
+    if os.path.exists(results_csv):
+        photo_results = pd.read_csv(results_csv)
+    else:
+        return
+    
+    if thresholds and thresholds.strip():
+        try:
+            threshold_values = [float(v) for v in thresholds.split(',')]
+            if len(threshold_values) != 3:
+                raise ValueError("Exactly three threshold values required.")
+            eye_v, smile_v, focus_v = threshold_values
+        except ValueError:
+            raise HTTPException(status_code=400, detail="Invalid threshold format. Provide three comma-separated float values.")
+
+    photo_update=PhotoScorer(config)
+
+    for image in idc.keys():
+        for type in idc[image].keys():
+            for person in idc[image][type]:
+                metrics=person
+                metrics_bool = photo_update._calculate_threshold_setting(metrics, eye_v, smile_v, focus_v)
+                person.update(metrics_bool)
+
+        scores, _ = photo_update._aggregate_scores(idc[image])
+
+        output_string=''
+        if scores:
+            for metrix in scores.values():
+                for val in metrix.values():
+                    if val == 0:
+                        value_string='a'
+                    elif val == 1:
+                        value_string='b'
+                    else:
+                        value_string='c'
+                    output_string+=value_string
+
+        if output_string:
+            print(photo_results.loc[:,'results'])
+            print(photo_results['photo_path']==image)
+            photo_results.loc[photo_results['photo_path']==image,'results']=output_string
+    return JSONResponse(content=json.loads(photo_results.to_json(orient='records')))
 
 @app.post("/api/reset", tags=["Workflow"])
 @handle_exception
@@ -219,7 +294,7 @@ async def reset_workflow():
         os.makedirs(folder_path, exist_ok=True)
         
     # 2. Delete generated files
-    for file_key in ['output_csv', 'labels_json','face_data_csv']:
+    for file_key in ['output_csv', 'labels_json']:
         file_path = config['scoring'][file_key]
         if os.path.exists(file_path):
             os.remove(file_path)

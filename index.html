@@ -252,12 +252,48 @@
                 labelingGrid.innerHTML = '<p class="text-red-500">Could not load cluster images.</p>';
             }
         };
-        
+        console.log("Labeling UI populated:");
         const populateGalleryUI = async () => {
+            
             try {
                 const response = await fetch('/api/gallery-data');
                 galleryData = await response.json();
                 renderFilters();
+                
+                document.getElementById('submit-thresholds').addEventListener('click', async () => {
+                    const eye = document.getElementById('eye-threshold').value;
+                    const smile = document.getElementById('smile-threshold').value;
+                    const focus = document.getElementById('focus-threshold').value;
+                    const thresholds = `${eye},${smile},${focus}`;
+                    try {
+                        const response = await fetch(`/api/update-thresholds?thresholds=${thresholds}`, { method: 'POST' });
+                        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                        galleryData = await response.json();
+                        isCustomThresholds = true;
+                        document.getElementById('threshold-status').textContent = 'Using custom thresholds.';
+                    } catch (error) {
+                        console.error("Failed to apply custom thresholds:", error);
+                    }
+                });
+                document.getElementById('reset-thresholds').addEventListener('click', async () => {
+                    try {
+                        const response = await fetch('/api/gallery-data');
+                        galleryData = await response.json();
+                        
+                        isCustomThresholds = false;
+                        document.getElementById('threshold-status').textContent = 'Using original values.';
+                        // Reset sliders to default
+                        document.getElementById('eye-threshold').value = 0.2;
+                        document.getElementById('smile-threshold').value = 0.38;
+                        document.getElementById('focus-threshold').value = 90;
+                        document.getElementById('eye-value').textContent = 0.2;
+                        document.getElementById('smile-value').textContent = 0.38;
+                        document.getElementById('focus-value').textContent = 90;
+                    } catch (error) {
+                        console.error("Failed to reset thresholds:", error);
+                    }
+                });
+                
                 renderGallery();
                 applyFilters();
                 document.getElementById('reset-workflow-button')?.addEventListener('click', (e) => {
@@ -277,6 +313,29 @@
                 'Other People': { eye: 6, smile: 7, focus: 8 }
             };
             let html = '';
+            html +=`<div class="space-y-4">
+                    <h4 class="font-bold text-slate-800">Custom Thresholds (0-1)</h4>
+                    <label class="flex items-center">
+                        <span class="w-24 text-sm text-slate-600">Eyes:</span>
+                        <input type="range" id="eye-threshold" min="0" max="1" step="0.01" value="0.2" class="ml-2 h-4 w-full">
+                        <span id="eye-value" class="ml-2 text-sm">0.2</span>
+                    </label>
+                    <label class="flex items-center">
+                        <span class="w-24 text-sm text-slate-600">Smile:</span>
+                        <input type="range" id="smile-threshold" min="0" max="1" step="0.01" value="0.38" class="ml-2 h-4 w-full">
+                        <span id="smile-value" class="ml-2 text-sm">0.38</span>
+                    </label>
+                    <label class="flex items-center">
+                        <span class="w-24 text-sm text-slate-600">Focus:</span>
+                        <input type="range" id="focus-threshold" min="0" max="100" step="1" value="90" class="ml-2 h-4 w-full">
+                        <span id="focus-value" class="ml-2 text-sm">90</span>
+                    </label>
+                    <div class="flex space-x-2">
+                        <button id="submit-thresholds" class="px-4 py-2 bg-indigo-600 text-white rounded">Submit</button>
+                        <button id="reset-thresholds" class="px-4 py-2 bg-gray-300 text-slate-800 rounded">Reset</button>
+                    </div>
+                    <p id="threshold-status" class="text-sm text-slate-600">Using original values.</p>
+                </div>`;
             for (const [group, indices] of Object.entries(filterGroups)) {
                 html += `<div class="space-y-2">
                             <h4 class="font-bold text-slate-800">${group}</h4>
@@ -287,8 +346,18 @@
             }
             filterContainer.innerHTML = html;
             document.querySelectorAll('.filter-cb').forEach(cb => cb.addEventListener('change', applyFilters));
+          
+            ['eye', 'smile', 'focus'].forEach(type => {
+                const slider = document.getElementById(`${type}-threshold`);
+                const valueSpan = document.getElementById(`${type}-value`);
+                slider.addEventListener('input', () => {
+                    valueSpan.textContent = slider.value;
+                });
+            });
+
         };
 
+        
         const renderGallery = () => {
             const galleryGrid = document.getElementById('gallery-grid');
             
