@@ -21,6 +21,7 @@ scoring:
   labels_json: 'cluster_labels.json'
   output_csv: 'photo_scores.csv'
   parallel_workers: null
+  categorical_matrices_output: 'categorical_matrices.json'
 
   # --- Quality Thresholds (these can now be tuned easily) ---
 thresholds:
