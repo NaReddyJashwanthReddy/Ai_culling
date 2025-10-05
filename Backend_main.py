@@ -273,8 +273,6 @@ async def update_categorical_matrices(thresholds: Optional[str] = Query(None)):
                     output_string+=value_string
 
         if output_string:
-            print(photo_results.loc[:,'results'])
-            print(photo_results['photo_path']==image)
             photo_results.loc[photo_results['photo_path']==image,'results']=output_string
     return JSONResponse(content=json.loads(photo_results.to_json(orient='records')))
 
@@ -302,4 +300,5 @@ async def reset_workflow():
     # 3. Reset the application state
     set_app_state("IDLE", "System reset. Ready for new upload.")
     
+
     return {"message": "Workflow has been reset successfully."}
