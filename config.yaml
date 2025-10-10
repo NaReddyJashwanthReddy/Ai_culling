@@ -6,14 +6,14 @@ io:
 
 # --- Model & Performance Configuration ---
 model_performance:
-  model_name: 'ArcFace'
+  model_name: 'Facenet'
   workers: null 
 
 # --- Clustering Algorithm Configuration ---
 clustering:
   affinity: 'cosine'
   linkage: 'average'
-  threshold: 0.4
+  threshold: 0.3
 
 scoring:
   dlib_model_path: 'shape_predictor_68_face_landmarks.dat'
@@ -40,4 +40,5 @@ rules:
 logging:
   level: 'INFO'
   file: 'logs/api_pipeline.log'
+
 
