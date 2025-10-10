@@ -46,7 +46,7 @@ class FaceProcessor:
             face_img = image[y1:y2, x1:x2]
             
             if face_img.shape[0] > 0 and face_img.shape[1] > 0:
-                embedding_obj = DeepFace.represent(face_img, model_name=self.model_name, enforce_detection=False)
+                embedding_obj = DeepFace.represent(face_img, model_name=self.model_name, enforce_detection=False,detector_backend='skip')
                 image_face_data.append({
                     "filename": filename,
                     "facial_area": data['facial_area'],
