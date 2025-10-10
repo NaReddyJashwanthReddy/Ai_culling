@@ -61,7 +61,7 @@ class FaceClusteringPipeline:
         return [
             os.path.join(image_folder, f)
             for f in os.listdir(image_folder)
-            if f.lower().endswith(('.png', '.jpg', '.jpeg'))
+            #if f.lower().endswith(('.png', '.jpg', '.jpeg'))
         ]
         
 
