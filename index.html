@@ -105,6 +105,11 @@
 
         let pollingInterval;
         let isLabelingUIPopulated = false;
+        document.getElementById('reset-workflow-button')?.addEventListener('click', (e) => {
+                    if (confirm("Are you sure you want to start a new analysis? All current photos and results will be permanently deleted.")) {
+                        handleApiAction('/api/reset', { method: 'POST' }, e.target);
+                    }
+                });
 
         const updateUI = (state) => {
             statusText.textContent = state.status;
@@ -296,11 +301,7 @@
                 
                 renderGallery();
                 applyFilters();
-                document.getElementById('reset-workflow-button')?.addEventListener('click', (e) => {
-                    if (confirm("Are you sure you want to start a new analysis? All current photos and results will be permanently deleted.")) {
-                        handleApiAction('/api/reset', { method: 'POST' }, e.target);
-                    }
-                });
+                
             } catch (error) { console.error("Failed to populate gallery:", error); }
         };
 
@@ -405,4 +406,5 @@
     });
     </script>
 </body>
+
 </html>
